@@ -149,11 +149,11 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(R.id.streakText, "")
         }
 
-        // Set click intent — tapping anywhere on the widget flips the coin
-        val flipIntent = Intent(context, CoinFlipWidgetProvider::class.java).apply {
-            action = ACTION_FLIP
+        // Set click intent — tapping the widget launches the animated flip overlay
+        val flipIntent = Intent(context, CoinFlipActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
-        val flipPendingIntent = PendingIntent.getBroadcast(
+        val flipPendingIntent = PendingIntent.getActivity(
             context,
             0,
             flipIntent,

@@ -3,7 +3,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#88000000"
+    android:background="#AA000000"
     android:gravity="center">
 
     <LinearLayout
@@ -12,27 +12,44 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="32dp"
-        android:background="@drawable/overlay_background">
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:paddingTop="36dp"
+        android:paddingBottom="36dp"
+        android:background="@drawable/overlay_background"
+        android:elevation="24dp">
 
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🪙 Coin Flip"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/gold_400"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Coin image (animated) -->
         <ImageView
             android:id="@+id/coinFlipImage"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:src="@drawable/coin_heads"
             android:scaleType="fitCenter"
             android:contentDescription="@string/coin_description" />
 
+        <!-- Result text (fades in after flip) -->
         <TextView
             android:id="@+id/coinFlipResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text=""
-            android:textSize="22sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="@color/gold_400"
-            android:fontFamily="sans-serif-medium" />
+            android:fontFamily="sans-serif-medium"
+            android:alpha="0" />
 
     </LinearLayout>
 

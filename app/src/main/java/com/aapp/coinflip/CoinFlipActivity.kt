@@ -1,8 +1,8 @@
 package com.aapp.coinflip
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.app.Activity
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -12,17 +12,17 @@ import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
-import android.view.animation.AnimationUtils
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import kotlin.random.Random
 
 /**
- * Lightweight transparent Activity launched when the widget coin is tapped.
- * Shows a quick flip animation overlay and then finishes, updating the widget.
- *
- * NOTE: This is an optional alternative for immersive widget flip experience.
- *       The widget can also flip directly via the BroadcastReceiver (see CoinFlipWidgetProvider).
+ * Transparent overlay Activity launched when the home screen widget is tapped.
+ * Shows a full coin flip animation (3D rotation + toss), updates stats,
+ * notifies the widget, and auto-closes after showing the result.
  */
 class CoinFlipActivity : Activity() {
 
@@ -39,35 +39,115 @@ class CoinFlipActivity : Activity() {
 
         val isHeads = Random.nextBoolean()
 
-        // Start flip animation
-        val flipAnim = AnimationUtils.loadAnimation(this, R.anim.coin_flip_anim)
-        coinImage.startAnimation(flipAnim)
+        // Initial haptic
+        triggerHaptic(30)
 
-        // Haptic
-        triggerHaptic()
+        // ---------- Animation Sequence ----------
 
-        // After animation, show result and close
-        Handler(Looper.getMainLooper()).postDelayed({
-            coinImage.setImageResource(
-                if (isHeads) R.drawable.coin_heads else R.drawable.coin_tails
-            )
-            resultLabel.text = if (isHeads) "HEADS!" else "TAILS!"
+        val totalDuration = 1200L
 
-            // Update shared prefs (same as widget provider)
-            updatePrefs(isHeads)
+        // Phase 1: Toss up + scale up
+        val tossUp = ObjectAnimator.ofFloat(coinImage, "translationY", 0f, -300f).apply {
+            duration = totalDuration / 2
+            interpolator = DecelerateInterpolator(1.5f)
+        }
+        val scaleUpX = ObjectAnimator.ofFloat(coinImage, "scaleX", 1f, 1.3f).apply {
+            duration = totalDuration / 3
+        }
+        val scaleUpY = ObjectAnimator.ofFloat(coinImage, "scaleY", 1f, 1.3f).apply {
+            duration = totalDuration / 3
+        }
 
-            // Notify widget
-            val intent = Intent(this, CoinFlipWidgetProvider::class.java).apply {
-                action = CoinFlipWidgetProvider.ACTION_FLIP_COMPLETE
+        // 3D-style rotation (rotationY simulates the flip)
+        val spin = ObjectAnimator.ofFloat(coinImage, "rotationY", 0f, 1080f).apply {
+            duration = totalDuration
+            interpolator = AccelerateInterpolator(0.6f)
+        }
+
+        // Also add a slight tilt on X axis for realism
+        val tiltX = ObjectAnimator.ofFloat(coinImage, "rotationX", 0f, 15f, -10f, 5f, 0f).apply {
+            duration = totalDuration
+        }
+
+        // Phase 2: Fall back down + scale back + bounce
+        val fallDown = ObjectAnimator.ofFloat(coinImage, "translationY", -300f, 0f).apply {
+            duration = totalDuration / 2
+            startDelay = totalDuration / 2
+            interpolator = OvershootInterpolator(1.4f)
+        }
+        val scaleDownX = ObjectAnimator.ofFloat(coinImage, "scaleX", 1.3f, 1f).apply {
+            duration = totalDuration / 3
+            startDelay = totalDuration * 2 / 3
+        }
+        val scaleDownY = ObjectAnimator.ofFloat(coinImage, "scaleY", 1.3f, 1f).apply {
+            duration = totalDuration / 3
+            startDelay = totalDuration * 2 / 3
+        }
+
+        // Fade-in for result text
+        resultLabel.alpha = 0f
+
+        val animSet = AnimatorSet()
+        animSet.playTogether(tossUp, scaleUpX, scaleUpY, spin, tiltX, fallDown, scaleDownX, scaleDownY)
+
+        // Swap images mid-spin to create the illusion of flipping between sides
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            coinImage.setImageResource(if (isHeads) R.drawable.coin_tails else R.drawable.coin_heads)
+        }, totalDuration / 4)
+
+        handler.postDelayed({
+            coinImage.setImageResource(if (isHeads) R.drawable.coin_heads else R.drawable.coin_tails)
+        }, totalDuration / 2)
+
+        handler.postDelayed({
+            coinImage.setImageResource(if (isHeads) R.drawable.coin_tails else R.drawable.coin_heads)
+        }, totalDuration * 3 / 4)
+
+        animSet.addListener(object : android.animation.AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: android.animation.Animator) {
+                // Set final result image
+                coinImage.setImageResource(
+                    if (isHeads) R.drawable.coin_heads else R.drawable.coin_tails
+                )
+                coinImage.rotationY = 0f
+                coinImage.rotationX = 0f
+
+                // Show result text with a pop animation
+                resultLabel.text = if (isHeads) "HEADS!" else "TAILS!"
+                resultLabel.setTextColor(
+                    if (isHeads) getColor(R.color.gold_400) else getColor(R.color.blue_glow)
+                )
+                ObjectAnimator.ofFloat(resultLabel, "alpha", 0f, 1f).apply {
+                    duration = 300
+                    start()
+                }
+                val popX = ObjectAnimator.ofFloat(resultLabel, "scaleX", 0.5f, 1.1f, 1f).apply { duration = 400 }
+                val popY = ObjectAnimator.ofFloat(resultLabel, "scaleY", 0.5f, 1.1f, 1f).apply { duration = 400 }
+                AnimatorSet().apply { playTogether(popX, popY); start() }
+
+                // Haptic on land
+                triggerHaptic(60)
+
+                // Update shared prefs
+                updatePrefs(isHeads)
+
+                // Notify widget to refresh
+                val intent = Intent(this@CoinFlipActivity, CoinFlipWidgetProvider::class.java).apply {
+                    action = CoinFlipWidgetProvider.ACTION_FLIP_COMPLETE
+                }
+                sendBroadcast(intent)
+
+                // Auto-close after showing result
+                handler.postDelayed({
+                    finish()
+                    @Suppress("DEPRECATION")
+                    overridePendingTransition(0, android.R.anim.fade_out)
+                }, 1000)
             }
-            sendBroadcast(intent)
+        })
 
-            // Close after a short delay
-            Handler(Looper.getMainLooper()).postDelayed({
-                finish()
-                overridePendingTransition(0, android.R.anim.fade_out)
-            }, 800)
-        }, 600)
+        animSet.start()
     }
 
     private fun updatePrefs(isHeads: Boolean) {
@@ -90,19 +170,19 @@ class CoinFlipActivity : Activity() {
         }
     }
 
-    private fun triggerHaptic() {
+    private fun triggerHaptic(durationMs: Long) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 val vibratorManager =
                     getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
                 vibratorManager.defaultVibrator.vibrate(
-                    VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
+                    VibrationEffect.createOneShot(durationMs, VibrationEffect.DEFAULT_AMPLITUDE)
                 )
             } else {
                 @Suppress("DEPRECATION")
                 val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 vibrator.vibrate(
-                    VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE)
+                    VibrationEffect.createOneShot(durationMs, VibrationEffect.DEFAULT_AMPLITUDE)
                 )
             }
         } catch (_: Exception) { }
