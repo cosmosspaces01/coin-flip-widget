@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Core palette -->
+    <color name="bg_primary">#FF07070F</color>
+    <color name="bg_secondary">#FF0E0E1E</color>
+    <color name="bg_card">#A6121226</color>
+
+    <!-- Gold accent spectrum -->
+    <color name="gold_50">#FFFFF9E6</color>
+    <color name="gold_100">#FFFFF0B3</color>
+    <color name="gold_200">#FFFFE680</color>
+    <color name="gold_300">#FFFFD84D</color>
+    <color name="gold_400">#FFFFCC1A</color>
+    <color name="gold_500">#FFFFC400</color>
+    <color name="gold_600">#FFE6A800</color>
+    <color name="gold_700">#FFB38200</color>
+    <color name="gold_800">#FF805C00</color>
+    <color name="gold_900">#FF4D3700</color>
+
+    <!-- Secondary accents -->
+    <color name="blue_glow">#FF3B82F6</color>
+    <color name="emerald_glow">#FF10B981</color>
+    <color name="rose_glow">#FFF43F5E</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FFF0EAD6</color>
+    <color name="text_secondary">#8CF0EAD6</color>
+    <color name="text_muted">#4DF0EAD6</color>
+
+    <!-- System overrides -->
+    <color name="status_bar">#FF07070F</color>
+    <color name="navigation_bar">#FF07070F</color>
+</resources>

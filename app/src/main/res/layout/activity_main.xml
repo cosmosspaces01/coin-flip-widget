@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Main Activity Layout -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="🪙 Coin Flip"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/gold_400"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:id="@+id/instructionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/tap_coin_instruction"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:visibility="visible" />
+
+        <!-- Coin Image -->
+        <ImageView
+            android:id="@+id/coinImageMain"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/coin_heads"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/coin_description" />
+
+        <!-- Result -->
+        <TextView
+            android:id="@+id/resultTextMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/tap_to_flip"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Streak -->
+        <TextView
+            android:id="@+id/streakTextMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textColor="@color/gold_300"
+            android:visibility="gone" />
+
+        <!-- Stats Cards -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Heads Card -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/stat_card_background"
+                android:padding="16dp"
+                android:layout_marginEnd="6dp">
+
+                <TextView
+                    android:id="@+id/headsCountMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👑 Heads: 0"
+                    android:textSize="16sp"
+                    android:textColor="@color/gold_400"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Tails Card -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/stat_card_background"
+                android:padding="16dp"
+                android:layout_marginStart="6dp">
+
+                <TextView
+                    android:id="@+id/tailsCountMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🦅 Tails: 0"
+                    android:textSize="16sp"
+                    android:textColor="@color/blue_glow"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Total -->
+        <TextView
+            android:id="@+id/totalCountMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Total: 0"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary" />
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/flipButtonMain"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="2"
+                android:layout_marginEnd="6dp"
+                android:text="🪙  Flip Coin"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#1a0f00"
+                android:backgroundTint="@color/gold_500"
+                android:fontFamily="sans-serif-medium" />
+
+            <Button
+                android:id="@+id/resetButtonMain"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="🔄 Reset"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary"
+                android:backgroundTint="@color/bg_card"
+                android:fontFamily="sans-serif-medium" />
+        </LinearLayout>
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp" />
+
+    </LinearLayout>
+</ScrollView>

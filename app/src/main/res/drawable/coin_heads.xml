@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vector drawable placeholder for heads coin face -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Coin body -->
+    <path
+        android:fillColor="#FFC400"
+        android:pathData="M100,10 A90,90,0,1,1,100,190 A90,90,0,1,1,100,10Z" />
+
+    <!-- Inner ring -->
+    <path
+        android:fillColor="#E6A800"
+        android:pathData="M100,20 A80,80,0,1,1,100,180 A80,80,0,1,1,100,20Z" />
+
+    <!-- Center fill -->
+    <path
+        android:fillColor="#FFD84D"
+        android:pathData="M100,30 A70,70,0,1,1,100,170 A70,70,0,1,1,100,30Z" />
+
+    <!-- H letter -->
+    <path
+        android:fillColor="#805C00"
+        android:pathData="M70,65 L70,135 L82,135 L82,107 L118,107 L118,135 L130,135 L130,65 L118,65 L118,95 L82,95 L82,65 Z" />
+
+</vector>

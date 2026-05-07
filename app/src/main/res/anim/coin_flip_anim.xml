@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Coin flip animation for the overlay activity -->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Scale up while "tossing" -->
+    <scale
+        android:fromXScale="1.0"
+        android:toXScale="1.2"
+        android:fromYScale="1.0"
+        android:toYScale="1.2"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:duration="200"
+        android:repeatCount="0" />
+
+    <!-- Translate up (toss) -->
+    <translate
+        android:fromYDelta="0"
+        android:toYDelta="-30%p"
+        android:duration="300"
+        android:repeatMode="reverse"
+        android:repeatCount="1" />
+
+    <!-- Rotate (simulated flip via Y-axis rotation isn't available in view animation,
+         so we use X-axis rotation for a tumble effect) -->
+    <rotate
+        android:fromDegrees="0"
+        android:toDegrees="720"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:duration="600" />
+
+</set>

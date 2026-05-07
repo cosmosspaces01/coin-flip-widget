@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Coin Flip</string>
+    <string name="widget_name">Coin Flip Widget</string>
+    <string name="widget_description">Tap to flip a coin — heads or tails!</string>
+    <string name="tap_to_flip">Tap to Flip!</string>
+    <string name="tap_coin_instruction">Tap the coin or press the button</string>
+    <string name="coin_description">Coin</string>
+    <string name="heads">HEADS!</string>
+    <string name="tails">TAILS!</string>
+    <string name="open_app">Open App</string>
+    <string name="flip_coin">Flip Coin</string>
+    <string name="reset">Reset</string>
+</resources>

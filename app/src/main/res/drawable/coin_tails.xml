@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vector drawable placeholder for tails coin face -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Coin body -->
+    <path
+        android:fillColor="#3B82F6"
+        android:pathData="M100,10 A90,90,0,1,1,100,190 A90,90,0,1,1,100,10Z" />
+
+    <!-- Inner ring -->
+    <path
+        android:fillColor="#2563EB"
+        android:pathData="M100,20 A80,80,0,1,1,100,180 A80,80,0,1,1,100,20Z" />
+
+    <!-- Center fill -->
+    <path
+        android:fillColor="#60A5FA"
+        android:pathData="M100,30 A70,70,0,1,1,100,170 A70,70,0,1,1,100,30Z" />
+
+    <!-- T letter -->
+    <path
+        android:fillColor="#1E3A5F"
+        android:pathData="M60,65 L60,80 L93,80 L93,135 L107,135 L107,80 L140,80 L140,65 Z" />
+
+</vector>
