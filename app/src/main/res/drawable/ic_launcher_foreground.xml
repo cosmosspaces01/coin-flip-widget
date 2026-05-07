@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gold coin foreground for adaptive icon (centered in 108dp safe zone) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Coin outer ring -->
+    <path
+        android:fillColor="#FFC400"
+        android:pathData="M54,22 A32,32,0,1,1,54,86 A32,32,0,1,1,54,22Z" />
+
+    <!-- Coin inner ring -->
+    <path
+        android:fillColor="#E6A800"
+        android:pathData="M54,26 A28,28,0,1,1,54,82 A28,28,0,1,1,54,26Z" />
+
+    <!-- Coin center -->
+    <path
+        android:fillColor="#FFD84D"
+        android:pathData="M54,30 A24,24,0,1,1,54,78 A24,24,0,1,1,54,30Z" />
+
+    <!-- C letter for "Coin" -->
+    <path
+        android:fillColor="#805C00"
+        android:pathData="M62,44 A10,10,0,0,0,46,54 A10,10,0,0,0,62,64 L62,60 A6,6,0,0,1,50,54 A6,6,0,0,1,62,48 Z" />
+
+</vector>
