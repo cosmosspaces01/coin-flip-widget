@@ -1,29 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Vector drawable placeholder for tails coin face -->
+<!-- Detailed coin: TAILS — Trophy/chalice with crown (silver theme) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="200dp"
     android:height="200dp"
     android:viewportWidth="200"
     android:viewportHeight="200">
 
-    <!-- Coin body -->
+    <!-- Outer coin body -->
     <path
-        android:fillColor="#3B82F6"
-        android:pathData="M100,10 A90,90,0,1,1,100,190 A90,90,0,1,1,100,10Z" />
+        android:fillColor="#C0C4CC"
+        android:pathData="M100,4 A96,96,0,1,1,100,196 A96,96,0,1,1,100,4Z" />
 
-    <!-- Inner ring -->
+    <!-- Ridged border -->
     <path
-        android:fillColor="#2563EB"
-        android:pathData="M100,20 A80,80,0,1,1,100,180 A80,80,0,1,1,100,20Z" />
+        android:fillColor="#A8ADB8"
+        android:pathData="M100,8 A92,92,0,1,1,100,192 A92,92,0,1,1,100,8Z" />
 
-    <!-- Center fill -->
+    <!-- Border ring highlight -->
     <path
-        android:fillColor="#60A5FA"
-        android:pathData="M100,30 A70,70,0,1,1,100,170 A70,70,0,1,1,100,30Z" />
+        android:fillColor="#D4D8E0"
+        android:pathData="M100,14 A86,86,0,1,1,100,186 A86,86,0,1,1,100,14Z" />
 
-    <!-- T letter -->
+    <!-- Inner coin face -->
     <path
-        android:fillColor="#1E3A5F"
-        android:pathData="M60,65 L60,80 L93,80 L93,135 L107,135 L107,80 L140,80 L140,65 Z" />
+        android:fillColor="#C8CDD6"
+        android:pathData="M100,18 A82,82,0,1,1,100,182 A82,82,0,1,1,100,18Z" />
+
+    <!-- Notch marks around border -->
+    <path android:fillColor="#9098A5" android:pathData="M98,6 L102,6 L102,16 L98,16Z" />
+    <path android:fillColor="#9098A5" android:pathData="M98,184 L102,184 L102,194 L98,194Z" />
+    <path android:fillColor="#9098A5" android:pathData="M6,98 L16,98 L16,102 L6,102Z" />
+    <path android:fillColor="#9098A5" android:pathData="M184,98 L194,98 L194,102 L184,102Z" />
+    <path android:fillColor="#9098A5" android:pathData="M30,28 L36,22 L42,28 L36,34Z" />
+    <path android:fillColor="#9098A5" android:pathData="M164,28 L170,22 L176,28 L170,34Z" />
+    <path android:fillColor="#9098A5" android:pathData="M30,172 L36,166 L42,172 L36,178Z" />
+    <path android:fillColor="#9098A5" android:pathData="M164,172 L170,166 L176,172 L170,178Z" />
+    <path android:fillColor="#9098A5" android:pathData="M55,12 L59,10 L62,18 L58,20Z" />
+    <path android:fillColor="#9098A5" android:pathData="M138,12 L142,10 L145,18 L141,20Z" />
+    <path android:fillColor="#9098A5" android:pathData="M10,55 L12,59 L20,56 L18,52Z" />
+    <path android:fillColor="#9098A5" android:pathData="M10,142 L12,138 L20,141 L18,145Z" />
+    <path android:fillColor="#9098A5" android:pathData="M180,55 L182,59 L190,56 L188,52Z" />
+    <path android:fillColor="#9098A5" android:pathData="M180,142 L182,138 L190,141 L188,145Z" />
+    <path android:fillColor="#9098A5" android:pathData="M55,182 L59,184 L62,192 L58,190Z" />
+    <path android:fillColor="#9098A5" android:pathData="M138,182 L142,184 L145,192 L141,190Z" />
+
+    <!-- ===== Trophy / Chalice ===== -->
+
+    <!-- Trophy base plate -->
+    <path
+        android:fillColor="#7A8290"
+        android:pathData="M72,148 L128,148 L132,155 L68,155Z" />
+
+    <!-- Base plate highlight -->
+    <path
+        android:fillColor="#8E94A0"
+        android:pathData="M75,148 L125,148 L128,152 L72,152Z" />
+
+    <!-- Trophy stem -->
+    <path
+        android:fillColor="#8E94A0"
+        android:pathData="M93,118 L107,118 L110,148 L90,148Z" />
+
+    <!-- Stem detail / knob -->
+    <path
+        android:fillColor="#7A8290"
+        android:pathData="M90,130 A12,5,0,1,1,110,130 A12,5,0,1,1,90,130Z" />
+
+    <!-- Stem highlight -->
+    <path
+        android:fillColor="#9BA2AE"
+        android:pathData="M96,120 L100,120 L102,145 L95,145Z" />
+
+    <!-- Trophy cup body -->
+    <path
+        android:fillColor="#8E94A0"
+        android:pathData="M62,70 L65,118 L93,118 L100,120 L107,118 L135,118 L138,70Z" />
+
+    <!-- Cup inner shadow -->
+    <path
+        android:fillColor="#7A8290"
+        android:pathData="M68,75 L70,112 L130,112 L132,75Z" />
+
+    <!-- Cup highlight -->
+    <path
+        android:fillColor="#9BA2AE"
+        android:pathData="M70,78 L72,108 L90,108 L88,78Z" />
+
+    <!-- Cup rim -->
+    <path
+        android:fillColor="#A8ADB8"
+        android:pathData="M58,65 L142,65 L138,75 L62,75Z" />
+
+    <!-- Cup rim highlight -->
+    <path
+        android:fillColor="#BCC1CA"
+        android:pathData="M62,67 L138,67 L136,72 L64,72Z" />
+
+    <!-- Left handle -->
+    <path
+        android:fillColor="#8E94A0"
+        android:strokeColor="#7A8290"
+        android:strokeWidth="2"
+        android:pathData="M62,78 C48,78 42,88 44,98 C46,108 54,112 62,108" />
+
+    <!-- Right handle -->
+    <path
+        android:fillColor="#8E94A0"
+        android:strokeColor="#7A8290"
+        android:strokeWidth="2"
+        android:pathData="M138,78 C152,78 158,88 156,98 C154,108 146,112 138,108" />
+
+    <!-- ===== Crown / Crystal on top ===== -->
+
+    <!-- Crown base -->
+    <path
+        android:fillColor="#6BAFD4"
+        android:pathData="M82,65 L118,65 L115,55 L105,60 L100,42 L95,60 L85,55Z" />
+
+    <!-- Crown inner highlight -->
+    <path
+        android:fillColor="#8DD4E8"
+        android:pathData="M88,63 L112,63 L110,57 L105,60 L100,48 L95,60 L90,57Z" />
+
+    <!-- Crown center jewel -->
+    <path
+        android:fillColor="#A8E0F0"
+        android:pathData="M97,52 L100,44 L103,52 L100,55Z" />
+
+    <!-- Crown side jewels -->
+    <path android:fillColor="#A8E0F0" android:pathData="M86,58 L88,54 L90,58 L88,60Z" />
+    <path android:fillColor="#A8E0F0" android:pathData="M110,58 L112,54 L114,58 L112,60Z" />
+
+    <!-- Crown sparkle lines -->
+    <path android:fillColor="#D0EFFF" android:pathData="M100,38 L100,42 L101,42 L101,38Z" />
+    <path android:fillColor="#D0EFFF" android:pathData="M93,40 L95,43 L96,42 L94,39Z" />
+    <path android:fillColor="#D0EFFF" android:pathData="M106,40 L104,43 L103,42 L105,39Z" />
+
+    <!-- ===== Decorative olive branches on sides ===== -->
+
+    <!-- Left branch -->
+    <path
+        android:fillColor="#6BAF8D"
+        android:strokeColor="#5A9A7C"
+        android:strokeWidth="1"
+        android:pathData="M48,85 C44,92 42,100 44,108" />
+    <path android:fillColor="#7EC8A8" android:pathData="M46,88 C42,86 40,89 42,92 C44,95 48,93 46,88Z" />
+    <path android:fillColor="#7EC8A8" android:pathData="M44,98 C40,96 38,99 40,102 C42,105 46,103 44,98Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M50,90 C52,86 54,88 52,92 C50,95 48,93 50,90Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M48,100 C50,96 52,98 50,102 C48,105 46,103 48,100Z" />
+
+    <!-- Right branch -->
+    <path
+        android:fillColor="#6BAF8D"
+        android:strokeColor="#5A9A7C"
+        android:strokeWidth="1"
+        android:pathData="M152,85 C156,92 158,100 156,108" />
+    <path android:fillColor="#7EC8A8" android:pathData="M154,88 C158,86 160,89 158,92 C156,95 152,93 154,88Z" />
+    <path android:fillColor="#7EC8A8" android:pathData="M156,98 C160,96 162,99 160,102 C158,105 154,103 156,98Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M150,90 C148,86 146,88 148,92 C150,95 152,93 150,90Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M152,100 C150,96 148,98 150,102 C152,105 154,103 152,100Z" />
 
 </vector>

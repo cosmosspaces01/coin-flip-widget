@@ -1,29 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Vector drawable placeholder for heads coin face -->
+<!-- Detailed coin: HEADS — Woman's profile with olive branch (silver theme) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="200dp"
     android:height="200dp"
     android:viewportWidth="200"
     android:viewportHeight="200">
 
-    <!-- Coin body -->
+    <!-- Outer coin body -->
     <path
-        android:fillColor="#FFC400"
-        android:pathData="M100,10 A90,90,0,1,1,100,190 A90,90,0,1,1,100,10Z" />
+        android:fillColor="#C0C4CC"
+        android:pathData="M100,4 A96,96,0,1,1,100,196 A96,96,0,1,1,100,4Z" />
 
-    <!-- Inner ring -->
+    <!-- Ridged border notches (simulated with inner ring) -->
     <path
-        android:fillColor="#E6A800"
-        android:pathData="M100,20 A80,80,0,1,1,100,180 A80,80,0,1,1,100,20Z" />
+        android:fillColor="#A8ADB8"
+        android:pathData="M100,8 A92,92,0,1,1,100,192 A92,92,0,1,1,100,8Z" />
 
-    <!-- Center fill -->
+    <!-- Border ring highlight -->
     <path
-        android:fillColor="#FFD84D"
-        android:pathData="M100,30 A70,70,0,1,1,100,170 A70,70,0,1,1,100,30Z" />
+        android:fillColor="#D4D8E0"
+        android:pathData="M100,14 A86,86,0,1,1,100,186 A86,86,0,1,1,100,14Z" />
 
-    <!-- H letter -->
+    <!-- Inner coin face -->
     <path
-        android:fillColor="#805C00"
-        android:pathData="M70,65 L70,135 L82,135 L82,107 L118,107 L118,135 L130,135 L130,65 L118,65 L118,95 L82,95 L82,65 Z" />
+        android:fillColor="#C8CDD6"
+        android:pathData="M100,18 A82,82,0,1,1,100,182 A82,82,0,1,1,100,18Z" />
+
+    <!-- Notch marks around border (top, bottom, left, right and diagonals) -->
+    <path android:fillColor="#9098A5" android:pathData="M98,6 L102,6 L102,16 L98,16Z" />
+    <path android:fillColor="#9098A5" android:pathData="M98,184 L102,184 L102,194 L98,194Z" />
+    <path android:fillColor="#9098A5" android:pathData="M6,98 L16,98 L16,102 L6,102Z" />
+    <path android:fillColor="#9098A5" android:pathData="M184,98 L194,98 L194,102 L184,102Z" />
+    <path android:fillColor="#9098A5" android:pathData="M30,28 L36,22 L42,28 L36,34Z" />
+    <path android:fillColor="#9098A5" android:pathData="M164,28 L170,22 L176,28 L170,34Z" />
+    <path android:fillColor="#9098A5" android:pathData="M30,172 L36,166 L42,172 L36,178Z" />
+    <path android:fillColor="#9098A5" android:pathData="M164,172 L170,166 L176,172 L170,178Z" />
+
+    <!-- Additional notch marks -->
+    <path android:fillColor="#9098A5" android:pathData="M55,12 L59,10 L62,18 L58,20Z" />
+    <path android:fillColor="#9098A5" android:pathData="M138,12 L142,10 L145,18 L141,20Z" />
+    <path android:fillColor="#9098A5" android:pathData="M10,55 L12,59 L20,56 L18,52Z" />
+    <path android:fillColor="#9098A5" android:pathData="M10,142 L12,138 L20,141 L18,145Z" />
+    <path android:fillColor="#9098A5" android:pathData="M180,55 L182,59 L190,56 L188,52Z" />
+    <path android:fillColor="#9098A5" android:pathData="M180,142 L182,138 L190,141 L188,145Z" />
+    <path android:fillColor="#9098A5" android:pathData="M55,182 L59,184 L62,192 L58,190Z" />
+    <path android:fillColor="#9098A5" android:pathData="M138,182 L142,184 L145,192 L141,190Z" />
+
+    <!-- ===== Woman's head profile (facing left) ===== -->
+
+    <!-- Hair (back/bun area) -->
+    <path
+        android:fillColor="#7A8290"
+        android:pathData="M115,55 C125,50 135,58 133,70 C138,65 142,72 140,82 C143,78 148,85 145,95 C148,100 145,110 138,115 C140,120 135,128 125,130 C120,135 112,138 105,135 L100,130 C105,125 108,115 110,105 C112,95 115,85 118,75 C119,65 118,58 115,55Z" />
+
+    <!-- Neck -->
+    <path
+        android:fillColor="#8E94A0"
+        android:pathData="M85,130 L80,155 L72,160 L95,160 L92,148 L100,130Z" />
+
+    <!-- Face profile -->
+    <path
+        android:fillColor="#8E94A0"
+        android:pathData="M100,55 C95,50 88,52 84,58 C80,62 76,68 73,75 C70,80 68,86 70,90 L72,92 C70,95 69,100 72,104 C74,108 78,110 82,110 C80,114 80,118 83,122 C86,126 92,128 100,130 C105,125 108,115 110,105 C112,95 115,85 118,75 C119,65 115,58 110,55Z" />
+
+    <!-- Face detail — forehead highlight -->
+    <path
+        android:fillColor="#9BA2AE"
+        android:pathData="M98,58 C94,56 90,58 87,62 C84,66 82,72 80,78 C85,72 92,64 98,58Z" />
+
+    <!-- Eye -->
+    <path
+        android:fillColor="#5C6370"
+        android:pathData="M82,82 C84,80 88,80 90,82 C88,84 84,84 82,82Z" />
+
+    <!-- Nose -->
+    <path
+        android:fillColor="#7A8290"
+        android:pathData="M70,90 L68,94 L72,92Z" />
+
+    <!-- Lips -->
+    <path
+        android:fillColor="#7A8290"
+        android:pathData="M72,104 C75,102 80,102 82,104 C80,106 75,106 72,104Z" />
+
+    <!-- Hair top/front -->
+    <path
+        android:fillColor="#6B717D"
+        android:pathData="M100,50 C95,45 88,46 84,50 C80,54 78,60 76,66 C80,58 86,50 95,48 C98,47 100,48 100,50Z" />
+
+    <!-- Hair waves -->
+    <path
+        android:fillColor="#6B717D"
+        android:pathData="M105,52 C108,48 114,47 118,52 C120,56 120,62 118,68 C117,60 114,54 108,52Z" />
+
+    <!-- ===== Olive branch ===== -->
+
+    <!-- Branch stem -->
+    <path
+        android:fillColor="#6BAF8D"
+        android:strokeColor="#5A9A7C"
+        android:strokeWidth="1.5"
+        android:pathData="M65,75 C60,80 55,90 52,100 C50,108 50,116 52,122" />
+
+    <!-- Leaves (paired along stem) -->
+    <path android:fillColor="#7EC8A8" android:pathData="M62,78 C58,74 54,76 56,80 C58,84 62,82 62,78Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M66,80 C70,76 72,78 70,82 C68,86 64,84 66,80Z" />
+
+    <path android:fillColor="#7EC8A8" android:pathData="M58,88 C54,84 50,86 52,90 C54,94 58,92 58,88Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M62,90 C66,86 68,88 66,92 C64,96 60,94 62,90Z" />
+
+    <path android:fillColor="#7EC8A8" android:pathData="M55,98 C51,94 47,96 49,100 C51,104 55,102 55,98Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M59,100 C63,96 65,98 63,102 C61,106 57,104 59,100Z" />
+
+    <path android:fillColor="#7EC8A8" android:pathData="M53,108 C49,104 45,106 47,110 C49,114 53,112 53,108Z" />
+    <path android:fillColor="#8DD4B8" android:pathData="M57,110 C61,106 63,108 61,112 C59,116 55,114 57,110Z" />
+
+    <path android:fillColor="#7EC8A8" android:pathData="M52,118 C48,114 44,116 46,120 C48,124 52,122 52,118Z" />
+
+    <!-- Leaf vein details -->
+    <path android:fillColor="#5A9A7C" android:pathData="M58,79 L56,78 L58,80Z" />
+    <path android:fillColor="#5A9A7C" android:pathData="M54,89 L52,88 L54,90Z" />
+    <path android:fillColor="#5A9A7C" android:pathData="M51,99 L49,98 L51,100Z" />
+
+    <!-- ===== Text: "HEADS" along bottom curve ===== -->
+    <path
+        android:fillColor="#7A8290"
+        android:pathData="M58,168 L60,164 L62,168 L61,168 L60,166 L59,168Z" />
 
 </vector>
