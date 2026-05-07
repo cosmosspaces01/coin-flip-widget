@@ -111,45 +111,17 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     ) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val lastResult = prefs.getString(KEY_LAST_RESULT, null)
-        val headsCount = prefs.getInt(KEY_HEADS_COUNT, 0)
-        val tailsCount = prefs.getInt(KEY_TAILS_COUNT, 0)
-        val streak = prefs.getInt(KEY_STREAK, 0)
-        val streakSide = prefs.getString(KEY_STREAK_SIDE, null)
 
         val views = RemoteViews(context.packageName, R.layout.widget_coin_flip)
 
         // Set coin image based on last result
         when (lastResult) {
-            "H" -> {
-                views.setImageViewResource(R.id.coinImage, R.drawable.coin_heads)
-                views.setTextViewText(R.id.resultText, "HEADS!")
-                views.setTextColor(R.id.resultText, context.getColor(R.color.gold_400))
-            }
-            "T" -> {
-                views.setImageViewResource(R.id.coinImage, R.drawable.coin_tails)
-                views.setTextViewText(R.id.resultText, "TAILS!")
-                views.setTextColor(R.id.resultText, context.getColor(R.color.blue_glow))
-            }
-            else -> {
-                views.setImageViewResource(R.id.coinImage, R.drawable.coin_heads)
-                views.setTextViewText(R.id.resultText, "Tap to Flip!")
-                views.setTextColor(R.id.resultText, context.getColor(R.color.text_secondary))
-            }
+            "H" -> views.setImageViewResource(R.id.coinImage, R.drawable.coin_heads)
+            "T" -> views.setImageViewResource(R.id.coinImage, R.drawable.coin_tails)
+            else -> views.setImageViewResource(R.id.coinImage, R.drawable.coin_heads)
         }
 
-        // Stats
-        views.setTextViewText(R.id.headsCountText, "👑 $headsCount")
-        views.setTextViewText(R.id.tailsCountText, "🦅 $tailsCount")
-
-        // Streak
-        if (streak > 1 && streakSide != null) {
-            val sideLabel = if (streakSide == "H") "Heads" else "Tails"
-            views.setTextViewText(R.id.streakText, "🔥 ${streak}× $sideLabel")
-        } else {
-            views.setTextViewText(R.id.streakText, "")
-        }
-
-        // Set click intent — tapping the widget launches the animated flip overlay
+        // Tapping the widget launches the animated flip overlay
         val flipIntent = Intent(context, CoinFlipActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
@@ -160,18 +132,6 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         views.setOnClickPendingIntent(R.id.widgetRoot, flipPendingIntent)
-
-        // Long-press opens the full activity
-        val activityIntent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        val activityPendingIntent = PendingIntent.getActivity(
-            context,
-            1,
-            activityIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        views.setOnClickPendingIntent(R.id.openAppButton, activityPendingIntent)
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
