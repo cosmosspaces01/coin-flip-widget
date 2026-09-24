@@ -16,6 +16,8 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
@@ -35,6 +37,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var flipButton: Button
     private lateinit var resetButton: Button
     private lateinit var instructionText: TextView
+    private lateinit var coinStyleGroup: RadioGroup
+    private lateinit var radioDefaultCoin: RadioButton
+    private lateinit var radioNothingCoin: RadioButton
 
     private var isFlipping = false
 
@@ -45,6 +50,9 @@ class MainActivity : AppCompatActivity() {
         private const val KEY_LAST_RESULT = "last_result"
         private const val KEY_STREAK = "streak"
         private const val KEY_STREAK_SIDE = "streak_side"
+        const val KEY_COIN_STYLE = "coin_style"
+        const val STYLE_DEFAULT = "default"
+        const val STYLE_NOTHING = "nothing"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +69,26 @@ class MainActivity : AppCompatActivity() {
         flipButton = findViewById(R.id.flipButtonMain)
         resetButton = findViewById(R.id.resetButtonMain)
         instructionText = findViewById(R.id.instructionText)
+        coinStyleGroup = findViewById(R.id.coinStyleGroup)
+        radioDefaultCoin = findViewById(R.id.radioDefaultCoin)
+        radioNothingCoin = findViewById(R.id.radioNothingCoin)
+
+        // Load saved coin style preference
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val savedStyle = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)
+        if (savedStyle == STYLE_NOTHING) {
+            radioNothingCoin.isChecked = true
+        } else {
+            radioDefaultCoin.isChecked = true
+        }
+
+        // Listen for coin style changes
+        coinStyleGroup.setOnCheckedChangeListener { _, checkedId ->
+            val style = if (checkedId == R.id.radioNothingCoin) STYLE_NOTHING else STYLE_DEFAULT
+            prefs.edit().putString(KEY_COIN_STYLE, style).apply()
+            refreshUI()
+            notifyWidgets()
+        }
 
         // Load saved state
         refreshUI()
@@ -70,6 +98,28 @@ class MainActivity : AppCompatActivity() {
         flipButton.setOnClickListener { performFlip() }
 
         resetButton.setOnClickListener { resetStats() }
+    }
+
+    /**
+     * Returns true if the "nothing coin" style is currently selected.
+     */
+    private fun isNothingCoin(): Boolean {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT) == STYLE_NOTHING
+    }
+
+    /**
+     * Returns the appropriate heads drawable resource for the current coin style.
+     */
+    private fun headsDrawable(): Int {
+        return if (isNothingCoin()) R.drawable.nothing_coin_heads else R.drawable.coin_heads
+    }
+
+    /**
+     * Returns the appropriate tails drawable resource for the current coin style.
+     */
+    private fun tailsDrawable(): Int {
+        return if (isNothingCoin()) R.drawable.nothing_coin_tails else R.drawable.coin_tails
     }
 
     /**
@@ -130,7 +180,7 @@ class MainActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: android.animation.Animator) {
                 // Set final image
                 coinImage.setImageResource(
-                    if (isHeads) R.drawable.coin_heads else R.drawable.coin_tails
+                    if (isHeads) headsDrawable() else tailsDrawable()
                 )
                 coinImage.rotationY = 0f
 
@@ -154,13 +204,13 @@ class MainActivity : AppCompatActivity() {
         // Swap image mid-animation to create flip illusion
         coinImage.postDelayed({
             coinImage.setImageResource(
-                if (isHeads) R.drawable.coin_tails else R.drawable.coin_heads
+                if (isHeads) tailsDrawable() else headsDrawable()
             )
         }, duration / 3)
 
         coinImage.postDelayed({
             coinImage.setImageResource(
-                if (isHeads) R.drawable.coin_heads else R.drawable.coin_tails
+                if (isHeads) headsDrawable() else tailsDrawable()
             )
         }, duration * 2 / 3)
 
@@ -198,17 +248,17 @@ class MainActivity : AppCompatActivity() {
 
         when (lastResult) {
             "H" -> {
-                coinImage.setImageResource(R.drawable.coin_heads)
+                coinImage.setImageResource(headsDrawable())
                 resultText.text = "HEADS!"
                 resultText.setTextColor(getColor(R.color.gold_400))
             }
             "T" -> {
-                coinImage.setImageResource(R.drawable.coin_tails)
+                coinImage.setImageResource(tailsDrawable())
                 resultText.text = "TAILS!"
                 resultText.setTextColor(getColor(R.color.blue_glow))
             }
             else -> {
-                coinImage.setImageResource(R.drawable.coin_heads)
+                coinImage.setImageResource(headsDrawable())
                 resultText.text = "Tap to Flip!"
                 resultText.setTextColor(getColor(R.color.text_secondary))
                 instructionText.visibility = View.VISIBLE
@@ -229,7 +279,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetStats() {
-        getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().clear().apply()
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val coinStyle = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)
+        prefs.edit().clear().apply()
+        // Preserve coin style after reset
+        prefs.edit().putString(KEY_COIN_STYLE, coinStyle).apply()
         refreshUI()
         notifyWidgets()
         triggerHaptic(20)

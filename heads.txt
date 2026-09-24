@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 800">
+  <defs>
+    <radialGradient id="coinGrad" cx="35%" cy="28%" r="75%">
+      <stop offset="0%" stop-color="#2c313b"/>
+      <stop offset="55%" stop-color="#20242b"/>
+      <stop offset="100%" stop-color="#131519"/>
+    </radialGradient>
+
+    <linearGradient id="brushedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a5058"/>
+      <stop offset="22%" stop-color="#2c3138"/>
+      <stop offset="50%" stop-color="#5b616b"/>
+      <stop offset="78%" stop-color="#2c3138"/>
+      <stop offset="100%" stop-color="#43484f"/>
+    </linearGradient>
+
+    <filter id="dropShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+
+    <filter id="textGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2.3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="redGlow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="4.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <rect id="notch" x="397" y="40" width="6" height="18" rx="1" fill="#0c0e12"/>
+  </defs>
+
+  <!-- ================= OUTER RIM ================= -->
+  <g id="outer-rim">
+    <circle cx="400" cy="400" r="360" fill="url(#coinGrad)" filter="url(#dropShadow)"/>
+    <circle cx="400" cy="400" r="360" fill="none" stroke="#3a3f47" stroke-width="2"/>
+    <circle cx="400" cy="400" r="352" fill="none" stroke="#0d0f13" stroke-width="3" opacity="0.85"/>
+
+    <use href="#notch" transform="rotate(0 400 400)"/>
+    <use href="#notch" transform="rotate(10 400 400)"/>
+    <use href="#notch" transform="rotate(20 400 400)"/>
+    <use href="#notch" transform="rotate(30 400 400)"/>
+    <use href="#notch" transform="rotate(40 400 400)"/>
+    <use href="#notch" transform="rotate(50 400 400)"/>
+    <use href="#notch" transform="rotate(60 400 400)"/>
+    <use href="#notch" transform="rotate(70 400 400)"/>
+    <use href="#notch" transform="rotate(80 400 400)"/>
+    <use href="#notch" transform="rotate(90 400 400)"/>
+    <use href="#notch" transform="rotate(100 400 400)"/>
+    <use href="#notch" transform="rotate(110 400 400)"/>
+    <use href="#notch" transform="rotate(120 400 400)"/>
+    <use href="#notch" transform="rotate(130 400 400)"/>
+    <use href="#notch" transform="rotate(140 400 400)"/>
+    <use href="#notch" transform="rotate(150 400 400)"/>
+    <use href="#notch" transform="rotate(160 400 400)"/>
+    <use href="#notch" transform="rotate(170 400 400)"/>
+    <use href="#notch" transform="rotate(180 400 400)"/>
+    <use href="#notch" transform="rotate(190 400 400)"/>
+    <use href="#notch" transform="rotate(200 400 400)"/>
+    <use href="#notch" transform="rotate(210 400 400)"/>
+    <use href="#notch" transform="rotate(220 400 400)"/>
+    <use href="#notch" transform="rotate(230 400 400)"/>
+    <use href="#notch" transform="rotate(240 400 400)"/>
+    <use href="#notch" transform="rotate(250 400 400)"/>
+    <use href="#notch" transform="rotate(260 400 400)"/>
+    <use href="#notch" transform="rotate(270 400 400)"/>
+    <use href="#notch" transform="rotate(280 400 400)"/>
+    <use href="#notch" transform="rotate(290 400 400)"/>
+    <use href="#notch" transform="rotate(300 400 400)"/>
+    <use href="#notch" transform="rotate(310 400 400)"/>
+    <use href="#notch" transform="rotate(320 400 400)"/>
+    <use href="#notch" transform="rotate(330 400 400)"/>
+    <use href="#notch" transform="rotate(340 400 400)"/>
+    <use href="#notch" transform="rotate(350 400 400)"/>
+  </g>
+
+  <!-- ================= BEZEL ================= -->
+  <g id="bezel">
+    <circle cx="400" cy="400" r="330" fill="none" stroke="url(#brushedGrad)" stroke-width="28"/>
+    <circle cx="400" cy="400" r="344" fill="none" stroke="#12151a" stroke-width="2"/>
+    <circle cx="400" cy="400" r="316" fill="none" stroke="#12151a" stroke-width="2"/>
+
+    <path d="M 297.4,118.1 A300,300 0 0,1 502.6,118.1" fill="none" stroke="#d7dade"
+          stroke-width="8" stroke-linecap="round" stroke-dasharray="12 9" opacity="0.9"/>
+    <path d="M 502.6,681.9 A300,300 0 0,1 297.4,681.9" fill="none" stroke="#d7dade"
+          stroke-width="8" stroke-linecap="round" stroke-dasharray="12 9" opacity="0.9"/>
+
+    <circle cx="700" cy="400" r="9" fill="#E51919" filter="url(#redGlow)"/>
+    <circle cx="700" cy="400" r="9" fill="none" stroke="#7a0f0f" stroke-width="1.5"/>
+  </g>
+
+  <!-- ================= TYPOGRAPHY (Centered "HEADS") ================= -->
+  <g id="typography" fill="#FFFFFF" filter="url(#textGlow)" transform="translate(126, 0)">
+    <!-- H -->
+    <g>
+      <rect x="130" y="360" width="8" height="8"/><rect x="170" y="360" width="8" height="8"/>
+      <rect x="130" y="370" width="8" height="8"/><rect x="170" y="370" width="8" height="8"/>
+      <rect x="130" y="380" width="8" height="8"/><rect x="170" y="380" width="8" height="8"/>
+      <rect x="130" y="390" width="8" height="8"/><rect x="140" y="390" width="8" height="8"/><rect x="150" y="390" width="8" height="8"/><rect x="160" y="390" width="8" height="8"/><rect x="170" y="390" width="8" height="8"/>
+      <rect x="130" y="400" width="8" height="8"/><rect x="170" y="400" width="8" height="8"/>
+      <rect x="130" y="410" width="8" height="8"/><rect x="170" y="410" width="8" height="8"/>
+      <rect x="130" y="420" width="8" height="8"/><rect x="170" y="420" width="8" height="8"/>
+    </g>
+    <!-- E -->
+    <g>
+      <rect x="190" y="360" width="8" height="8"/><rect x="200" y="360" width="8" height="8"/><rect x="210" y="360" width="8" height="8"/><rect x="220" y="360" width="8" height="8"/><rect x="230" y="360" width="8" height="8"/>
+      <rect x="190" y="370" width="8" height="8"/>
+      <rect x="190" y="380" width="8" height="8"/>
+      <rect x="190" y="390" width="8" height="8"/><rect x="200" y="390" width="8" height="8"/><rect x="210" y="390" width="8" height="8"/><rect x="220" y="390" width="8" height="8"/>
+      <rect x="190" y="400" width="8" height="8"/>
+      <rect x="190" y="410" width="8" height="8"/>
+      <rect x="190" y="420" width="8" height="8"/><rect x="200" y="420" width="8" height="8"/><rect x="210" y="420" width="8" height="8"/><rect x="220" y="420" width="8" height="8"/><rect x="230" y="420" width="8" height="8"/>
+    </g>
+    <!-- A -->
+    <g>
+      <rect x="260" y="360" width="8" height="8"/><rect x="270" y="360" width="8" height="8"/><rect x="280" y="360" width="8" height="8"/>
+      <rect x="250" y="370" width="8" height="8"/><rect x="290" y="370" width="8" height="8"/>
+      <rect x="250" y="380" width="8" height="8"/><rect x="290" y="380" width="8" height="8"/>
+      <rect x="250" y="390" width="8" height="8"/><rect x="260" y="390" width="8" height="8"/><rect x="270" y="390" width="8" height="8"/><rect x="280" y="390" width="8" height="8"/><rect x="290" y="390" width="8" height="8"/>
+      <rect x="250" y="400" width="8" height="8"/><rect x="290" y="400" width="8" height="8"/>
+      <rect x="250" y="410" width="8" height="8"/><rect x="290" y="410" width="8" height="8"/>
+      <rect x="250" y="420" width="8" height="8"/><rect x="290" y="420" width="8" height="8"/>
+    </g>
+    <!-- D -->
+    <g>
+      <rect x="310" y="360" width="8" height="8"/><rect x="320" y="360" width="8" height="8"/><rect x="330" y="360" width="8" height="8"/><rect x="340" y="360" width="8" height="8"/>
+      <rect x="310" y="370" width="8" height="8"/><rect x="350" y="370" width="8" height="8"/>
+      <rect x="310" y="380" width="8" height="8"/><rect x="350" y="380" width="8" height="8"/>
+      <rect x="310" y="390" width="8" height="8"/><rect x="350" y="390" width="8" height="8"/>
+      <rect x="310" y="400" width="8" height="8"/><rect x="350" y="400" width="8" height="8"/>
+      <rect x="310" y="410" width="8" height="8"/><rect x="350" y="410" width="8" height="8"/>
+      <rect x="310" y="420" width="8" height="8"/><rect x="320" y="420" width="8" height="8"/><rect x="330" y="420" width="8" height="8"/><rect x="340" y="420" width="8" height="8"/>
+    </g>
+    <!-- S -->
+    <g>
+      <rect x="380" y="360" width="8" height="8"/><rect x="390" y="360" width="8" height="8"/><rect x="400" y="360" width="8" height="8"/><rect x="410" y="360" width="8" height="8"/>
+      <rect x="370" y="370" width="8" height="8"/>
+      <rect x="370" y="380" width="8" height="8"/>
+      <rect x="380" y="390" width="8" height="8"/><rect x="390" y="390" width="8" height="8"/><rect x="400" y="390" width="8" height="8"/>
+      <rect x="410" y="400" width="8" height="8"/>
+      <rect x="410" y="410" width="8" height="8"/>
+      <rect x="370" y="420" width="8" height="8"/><rect x="380" y="420" width="8" height="8"/><rect x="390" y="420" width="8" height="8"/><rect x="400" y="420" width="8" height="8"/>
+    </g>
+  </g>
+</svg>

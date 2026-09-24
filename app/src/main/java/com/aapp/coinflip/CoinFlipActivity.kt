@@ -41,6 +41,28 @@ class CoinFlipActivity : Activity() {
     // Flip durations: start fast, end slow (ms per half-flip)
     private val flipHalfDurations = longArrayOf(70, 80, 100, 140, 200, 280)
 
+    /**
+     * Returns true if the "nothing coin" style is currently selected.
+     */
+    private fun isNothingCoin(): Boolean {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT) == MainActivity.STYLE_NOTHING
+    }
+
+    /**
+     * Returns the appropriate heads drawable resource for the current coin style.
+     */
+    private fun headsDrawable(): Int {
+        return if (isNothingCoin()) R.drawable.nothing_coin_heads else R.drawable.coin_heads
+    }
+
+    /**
+     * Returns the appropriate tails drawable resource for the current coin style.
+     */
+    private fun tailsDrawable(): Int {
+        return if (isNothingCoin()) R.drawable.nothing_coin_tails else R.drawable.coin_tails
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_flip)
@@ -52,6 +74,9 @@ class CoinFlipActivity : Activity() {
 
         // Set camera distance for 3D perspective depth
         coinImage.cameraDistance = 12_000 * resources.displayMetrics.density
+
+        // Set the initial coin image based on coin style
+        coinImage.setImageResource(headsDrawable())
 
         val isHeads = Random.nextBoolean()
 
@@ -153,9 +178,9 @@ class CoinFlipActivity : Activity() {
                     // Swap image at the edge (invisible moment)
                     val faceToShow = if (isFinalFlip) {
                         // Final flip: show the actual result
-                        if (isHeads) R.drawable.coin_heads else R.drawable.coin_tails
+                        if (isHeads) headsDrawable() else tailsDrawable()
                     } else {
-                        if (showHeads) R.drawable.coin_heads else R.drawable.coin_tails
+                        if (showHeads) headsDrawable() else tailsDrawable()
                     }
                     coinImage.setImageResource(faceToShow)
 

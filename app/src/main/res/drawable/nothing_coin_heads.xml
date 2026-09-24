@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nothing Coin HEADS: Dark metallic coin with pixel "HEADS" text (from heads.txt SVG) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="800"
+    android:viewportHeight="800">
+
+    <!-- ================= OUTER RIM ================= -->
+    <!-- Main coin body -->
+    <path
+        android:fillColor="#20242b"
+        android:pathData="M400,400m-360,0a360,360,0,1,1,720,0a360,360,0,1,1,-720,0" />
+
+    <!-- Outer ring stroke -->
+    <path
+        android:fillColor="#3a3f47"
+        android:pathData="M400,400m-360,0a360,360,0,1,1,720,0a360,360,0,1,1,-720,0"
+        android:strokeWidth="2"
+        android:strokeColor="#3a3f47" />
+
+    <!-- Inner ring stroke -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M400,400m-352,0a352,352,0,1,1,704,0a352,352,0,1,1,-704,0"
+        android:strokeWidth="3"
+        android:strokeColor="#0d0f13" />
+
+    <!-- Edge notches (simplified as ring detail) -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M400,400m-356,0a356,356,0,1,1,712,0a356,356,0,1,1,-712,0"
+        android:strokeWidth="4"
+        android:strokeColor="#0c0e12"
+        android:strokeDashArray="6,12" />
+
+    <!-- ================= BEZEL ================= -->
+    <!-- Brushed metal bezel -->
+    <path
+        android:fillColor="#3a3f47"
+        android:pathData="M400,400m-330,0a330,330,0,1,1,660,0a330,330,0,1,1,-660,0"
+        android:strokeWidth="28"
+        android:strokeColor="#3a3f47" />
+
+    <!-- Bezel inner edge -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M400,400m-316,0a316,316,0,1,1,632,0a316,316,0,1,1,-632,0"
+        android:strokeWidth="2"
+        android:strokeColor="#12151a" />
+
+    <!-- Bezel outer edge -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M400,400m-344,0a344,344,0,1,1,688,0a344,344,0,1,1,-688,0"
+        android:strokeWidth="2"
+        android:strokeColor="#12151a" />
+
+    <!-- Top dashed arc -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M297.4,118.1 A300,300 0 0,1 502.6,118.1"
+        android:strokeWidth="8"
+        android:strokeColor="#d7dade"
+        android:strokeLineCap="round"
+        android:strokeDashArray="12,9" />
+
+    <!-- Bottom dashed arc -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M502.6,681.9 A300,300 0 0,1 297.4,681.9"
+        android:strokeWidth="8"
+        android:strokeColor="#d7dade"
+        android:strokeLineCap="round"
+        android:strokeDashArray="12,9" />
+
+    <!-- Red accent dot -->
+    <path
+        android:fillColor="#E51919"
+        android:pathData="M700,400m-9,0a9,9,0,1,1,18,0a9,9,0,1,1,-18,0" />
+
+    <!-- ================= PIXEL TEXT "HEADS" ================= -->
+    <group android:translateX="126" android:translateY="0">
+        <!-- H -->
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M130,360h8v8h-8zM170,360h8v8h-8zM130,370h8v8h-8zM170,370h8v8h-8zM130,380h8v8h-8zM170,380h8v8h-8zM130,390h8v8h-8zM140,390h8v8h-8zM150,390h8v8h-8zM160,390h8v8h-8zM170,390h8v8h-8zM130,400h8v8h-8zM170,400h8v8h-8zM130,410h8v8h-8zM170,410h8v8h-8zM130,420h8v8h-8zM170,420h8v8h-8z" />
+        <!-- E -->
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M190,360h8v8h-8zM200,360h8v8h-8zM210,360h8v8h-8zM220,360h8v8h-8zM230,360h8v8h-8zM190,370h8v8h-8zM190,380h8v8h-8zM190,390h8v8h-8zM200,390h8v8h-8zM210,390h8v8h-8zM220,390h8v8h-8zM190,400h8v8h-8zM190,410h8v8h-8zM190,420h8v8h-8zM200,420h8v8h-8zM210,420h8v8h-8zM220,420h8v8h-8zM230,420h8v8h-8z" />
+        <!-- A -->
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M260,360h8v8h-8zM270,360h8v8h-8zM280,360h8v8h-8zM250,370h8v8h-8zM290,370h8v8h-8zM250,380h8v8h-8zM290,380h8v8h-8zM250,390h8v8h-8zM260,390h8v8h-8zM270,390h8v8h-8zM280,390h8v8h-8zM290,390h8v8h-8zM250,400h8v8h-8zM290,400h8v8h-8zM250,410h8v8h-8zM290,410h8v8h-8zM250,420h8v8h-8zM290,420h8v8h-8z" />
+        <!-- D -->
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M310,360h8v8h-8zM320,360h8v8h-8zM330,360h8v8h-8zM340,360h8v8h-8zM310,370h8v8h-8zM350,370h8v8h-8zM310,380h8v8h-8zM350,380h8v8h-8zM310,390h8v8h-8zM350,390h8v8h-8zM310,400h8v8h-8zM350,400h8v8h-8zM310,410h8v8h-8zM350,410h8v8h-8zM310,420h8v8h-8zM320,420h8v8h-8zM330,420h8v8h-8zM340,420h8v8h-8z" />
+        <!-- S -->
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M380,360h8v8h-8zM390,360h8v8h-8zM400,360h8v8h-8zM410,360h8v8h-8zM370,370h8v8h-8zM370,380h8v8h-8zM380,390h8v8h-8zM390,390h8v8h-8zM400,390h8v8h-8zM410,400h8v8h-8zM410,410h8v8h-8zM370,420h8v8h-8zM380,420h8v8h-8zM390,420h8v8h-8zM400,420h8v8h-8z" />
+    </group>
+
+</vector>

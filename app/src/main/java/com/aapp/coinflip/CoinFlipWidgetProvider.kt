@@ -102,6 +102,14 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     }
 
     /**
+     * Returns true if the "nothing coin" style is currently selected.
+     */
+    private fun isNothingCoin(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT) == MainActivity.STYLE_NOTHING
+    }
+
+    /**
      * Builds and pushes the RemoteViews for a single widget instance.
      */
     private fun updateWidget(
@@ -111,14 +119,28 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     ) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val lastResult = prefs.getString(KEY_LAST_RESULT, null)
+        val useNothingCoin = isNothingCoin(context)
 
         val views = RemoteViews(context.packageName, R.layout.widget_coin_flip)
 
-        // Set coin image based on last result
+        // Set widget background based on coin style
+        val bgRes = if (useNothingCoin) R.drawable.widget_background_nothing else R.drawable.widget_background
+        views.setInt(R.id.widgetRoot, "setBackgroundResource", bgRes)
+
+        // Set coin image based on last result and coin style
         when (lastResult) {
-            "H" -> views.setImageViewResource(R.id.coinImage, R.drawable.coin_heads)
-            "T" -> views.setImageViewResource(R.id.coinImage, R.drawable.coin_tails)
-            else -> views.setImageViewResource(R.id.coinImage, R.drawable.coin_heads)
+            "H" -> views.setImageViewResource(
+                R.id.coinImage,
+                if (useNothingCoin) R.drawable.nothing_coin_heads else R.drawable.coin_heads
+            )
+            "T" -> views.setImageViewResource(
+                R.id.coinImage,
+                if (useNothingCoin) R.drawable.nothing_coin_tails else R.drawable.coin_tails
+            )
+            else -> views.setImageViewResource(
+                R.id.coinImage,
+                if (useNothingCoin) R.drawable.nothing_coin_heads else R.drawable.coin_heads
+            )
         }
 
         // Tapping the widget launches the animated flip overlay

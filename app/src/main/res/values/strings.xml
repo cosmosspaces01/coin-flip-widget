@@ -11,4 +11,7 @@
     <string name="open_app">Open App</string>
     <string name="flip_coin">Flip Coin</string>
     <string name="reset">Reset</string>
+    <string name="coin_style_label">Coin Style</string>
+    <string name="coin_style_default">Default Coin</string>
+    <string name="coin_style_nothing">Nothing Coin</string>
 </resources>

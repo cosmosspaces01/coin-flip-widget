@@ -163,6 +163,54 @@
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
+        <!-- Coin Style Selector -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/coin_style_label"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif-medium" />
+
+        <RadioGroup
+            android:id="@+id/coinStyleGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/radioDefaultCoin"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="@string/coin_style_default"
+                android:textSize="13sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="@color/gold_400"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioNothingCoin"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="@string/coin_style_nothing"
+                android:textSize="13sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="@color/dark_grey"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center" />
+
+        </RadioGroup>
+
         <!-- Spacer -->
         <View
             android:layout_width="1dp"

@@ -21,6 +21,7 @@
     <color name="blue_glow">#FF3B82F6</color>
     <color name="emerald_glow">#FF10B981</color>
     <color name="rose_glow">#FFF43F5E</color>
+    <color name="dark_grey">#FF808080</color>
 
     <!-- Text -->
     <color name="text_primary">#FFF0EAD6</color>
