@@ -31,8 +31,7 @@
         android:fillColor="#00000000"
         android:pathData="M400,400m-356,0a356,356,0,1,1,712,0a356,356,0,1,1,-712,0"
         android:strokeWidth="4"
-        android:strokeColor="#0c0e12"
-        android:strokeDashArray="6,12" />
+        android:strokeColor="#0c0e12" />
 
     <!-- ================= BEZEL ================= -->
     <!-- Brushed metal bezel -->
@@ -62,8 +61,7 @@
         android:pathData="M297.4,118.1 A300,300 0 0,1 502.6,118.1"
         android:strokeWidth="8"
         android:strokeColor="#d7dade"
-        android:strokeLineCap="round"
-        android:strokeDashArray="12,9" />
+        android:strokeLineCap="round" />
 
     <!-- Bottom dashed arc -->
     <path
@@ -71,8 +69,7 @@
         android:pathData="M502.6,681.9 A300,300 0 0,1 297.4,681.9"
         android:strokeWidth="8"
         android:strokeColor="#d7dade"
-        android:strokeLineCap="round"
-        android:strokeDashArray="12,9" />
+        android:strokeLineCap="round" />
 
     <!-- Red accent dot -->
     <path
