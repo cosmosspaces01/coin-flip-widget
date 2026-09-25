@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -19,6 +20,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import kotlin.random.Random
 
 /**
@@ -71,6 +73,27 @@ class CoinFlipActivity : Activity() {
         val resultLabel = findViewById<TextView>(R.id.coinFlipResult)
         val titleLabel  = findViewById<TextView>(R.id.overlayTitle)
         val hintLabel   = findViewById<TextView>(R.id.overlayHint)
+
+        // Apply Nothing style theming if selected
+        val useNothingStyle = isNothingCoin()
+        if (useNothingStyle) {
+            val dotFont: Typeface? = try {
+                ResourcesCompat.getFont(this, R.font.led_dot_matrix)
+            } catch (_: Exception) { null }
+
+            // Apply dot-matrix font to all text views
+            dotFont?.let { font ->
+                titleLabel.typeface = font
+                resultLabel.typeface = font
+                hintLabel.typeface = font
+            }
+
+            // Nothing-style colors: clean white/grey instead of gold
+            titleLabel.setTextColor(0xFFD7DADE.toInt())
+            titleLabel.text = "FLIP"
+            resultLabel.setTextColor(0xFFFFFFFF.toInt())
+            hintLabel.setTextColor(0x99D7DADE.toInt())
+        }
 
         // Set camera distance for 3D perspective depth
         coinImage.cameraDistance = 12_000 * resources.displayMetrics.density
@@ -205,9 +228,20 @@ class CoinFlipActivity : Activity() {
     }
 
     private fun showResult(isHeads: Boolean, resultLabel: TextView, hintLabel: TextView) {
-        val resultColor = if (isHeads) 0xFFFFCC1A.toInt() else 0xFF6BAFD4.toInt()
-        resultLabel.text  = if (isHeads) "HEADS" else "TAILS"
-        resultLabel.setTextColor(resultColor)
+        val useNothingStyle = isNothingCoin()
+
+        if (useNothingStyle) {
+            // Nothing style: monochrome, minimal
+            val resultColor = if (isHeads) 0xFFFFFFFF.toInt() else 0xFFD7DADE.toInt()
+            resultLabel.text  = if (isHeads) "HEADS" else "TAILS"
+            resultLabel.setTextColor(resultColor)
+        } else {
+            // Default style: gold/blue
+            val resultColor = if (isHeads) 0xFFFFCC1A.toInt() else 0xFF6BAFD4.toInt()
+            resultLabel.text  = if (isHeads) "HEADS" else "TAILS"
+            resultLabel.setTextColor(resultColor)
+        }
+
         resultLabel.scaleX = 0.3f
         resultLabel.scaleY = 0.3f
 
@@ -220,7 +254,12 @@ class CoinFlipActivity : Activity() {
         }
         AnimatorSet().apply { playTogether(fadeIn, popX, popY); start() }
 
-        hintLabel.text = if (isHeads) "The lion prevails! 🦁" else "The moon rises! 🌙"
+        if (useNothingStyle) {
+            // Nothing style: minimal, clean hint text — no emojis
+            hintLabel.text = if (isHeads) "· heads ·" else "· tails ·"
+        } else {
+            hintLabel.text = if (isHeads) "The lion prevails! 🦁" else "The moon rises! 🌙"
+        }
         ObjectAnimator.ofFloat(hintLabel, "alpha", 0f, 0.85f).apply {
             duration = 400; startDelay = 250; start()
         }
