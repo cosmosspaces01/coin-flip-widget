@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var coinStyleGroup: RadioGroup
     private lateinit var radioDefaultCoin: RadioButton
     private lateinit var radioNothingCoin: RadioButton
+    private lateinit var radioNothingLucentCoin: RadioButton
 
     private var isFlipping = false
 
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         const val KEY_COIN_STYLE = "coin_style"
         const val STYLE_DEFAULT = "default"
         const val STYLE_NOTHING = "nothing"
+        const val STYLE_NOTHING_LUCENT = "nothing_lucent"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,19 +74,23 @@ class MainActivity : AppCompatActivity() {
         coinStyleGroup = findViewById(R.id.coinStyleGroup)
         radioDefaultCoin = findViewById(R.id.radioDefaultCoin)
         radioNothingCoin = findViewById(R.id.radioNothingCoin)
+        radioNothingLucentCoin = findViewById(R.id.radioNothingLucentCoin)
 
         // Load saved coin style preference
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val savedStyle = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)
-        if (savedStyle == STYLE_NOTHING) {
-            radioNothingCoin.isChecked = true
-        } else {
-            radioDefaultCoin.isChecked = true
+        when (prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)) {
+            STYLE_NOTHING_LUCENT -> radioNothingLucentCoin.isChecked = true
+            STYLE_NOTHING -> radioNothingCoin.isChecked = true
+            else -> radioDefaultCoin.isChecked = true
         }
 
         // Listen for coin style changes
         coinStyleGroup.setOnCheckedChangeListener { _, checkedId ->
-            val style = if (checkedId == R.id.radioNothingCoin) STYLE_NOTHING else STYLE_DEFAULT
+            val style = when (checkedId) {
+                R.id.radioNothingLucentCoin -> STYLE_NOTHING_LUCENT
+                R.id.radioNothingCoin -> STYLE_NOTHING
+                else -> STYLE_DEFAULT
+            }
             prefs.edit().putString(KEY_COIN_STYLE, style).apply()
             refreshUI()
             notifyWidgets()
@@ -101,11 +107,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Returns true if the "nothing coin" style is currently selected.
+     * Returns true if a Nothing-styled coin is currently selected.
      */
     private fun isNothingCoin(): Boolean {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT) == STYLE_NOTHING
+        val style = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)
+        return style == STYLE_NOTHING || style == STYLE_NOTHING_LUCENT
     }
 
     /**

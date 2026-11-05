@@ -48,7 +48,8 @@ class CoinFlipActivity : Activity() {
      */
     private fun isNothingCoin(): Boolean {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT) == MainActivity.STYLE_NOTHING
+        val style = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
+        return style == MainActivity.STYLE_NOTHING || style == MainActivity.STYLE_NOTHING_LUCENT
     }
 
     /**

@@ -102,11 +102,12 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     }
 
     /**
-     * Returns true if the "nothing coin" style is currently selected.
+     * Returns true if a Nothing-styled coin is currently selected.
      */
     private fun isNothingCoin(context: Context): Boolean {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT) == MainActivity.STYLE_NOTHING
+        val style = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
+        return style == MainActivity.STYLE_NOTHING || style == MainActivity.STYLE_NOTHING_LUCENT
     }
 
     /**
@@ -119,12 +120,17 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     ) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val lastResult = prefs.getString(KEY_LAST_RESULT, null)
+        val style = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
         val useNothingCoin = isNothingCoin(context)
 
         val views = RemoteViews(context.packageName, R.layout.widget_coin_flip)
 
         // Set widget background based on coin style
-        val bgRes = if (useNothingCoin) R.drawable.widget_background_nothing else R.drawable.widget_background
+        val bgRes = when (style) {
+            MainActivity.STYLE_NOTHING_LUCENT -> R.drawable.widget_background_nothing_lucent
+            MainActivity.STYLE_NOTHING -> R.drawable.widget_background_nothing
+            else -> R.drawable.widget_background
+        }
         views.setInt(R.id.widgetRoot, "setBackgroundResource", bgRes)
 
         // Set coin image based on last result and coin style
