@@ -163,7 +163,7 @@
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
-        <!-- Coin Style Selector -->
+        <!-- 1. Coin Design Selector -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -211,15 +211,77 @@
                 android:gravity="center" />
 
             <RadioButton
-                android:id="@+id/radioNothingLucentCoin"
+                android:id="@+id/radioNothingGlassCoin"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
-                android:text="@string/coin_style_nothing_lucent"
+                android:text="@string/coin_style_nothing_glass"
                 android:textSize="12sp"
                 android:textColor="@color/text_primary"
+                android:buttonTint="@color/blue_glow"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center" />
+
+        </RadioGroup>
+
+        <!-- 2. Widget Frame Selector -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/widget_frame_label"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif-medium" />
+
+        <RadioGroup
+            android:id="@+id/widgetFrameGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/radioFrameSolid"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="@string/widget_frame_solid"
+                android:textSize="11sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="@color/dark_grey"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/radioFrameLucent"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:text="@string/widget_frame_lucent"
+                android:textSize="11sp"
+                android:textColor="@color/text_primary"
                 android:buttonTint="@color/text_secondary"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioFrameDial"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/widget_frame_dial"
+                android:textSize="11sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="@color/rose_glow"
                 android:background="@drawable/stat_card_background"
                 android:gravity="center" />
 

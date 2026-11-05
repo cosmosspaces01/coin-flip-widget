@@ -102,15 +102,6 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     }
 
     /**
-     * Returns true if a Nothing-styled coin is currently selected.
-     */
-    private fun isNothingCoin(context: Context): Boolean {
-        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val style = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
-        return style == MainActivity.STYLE_NOTHING || style == MainActivity.STYLE_NOTHING_LUCENT
-    }
-
-    /**
      * Builds and pushes the RemoteViews for a single widget instance.
      */
     private fun updateWidget(
@@ -120,34 +111,32 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     ) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val lastResult = prefs.getString(KEY_LAST_RESULT, null)
-        val style = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
-        val useNothingCoin = isNothingCoin(context)
+        val coinStyle = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
+        val widgetFrame = prefs.getString(MainActivity.KEY_WIDGET_FRAME, MainActivity.FRAME_LUCENT)
 
         val views = RemoteViews(context.packageName, R.layout.widget_coin_flip)
 
-        // Set widget background based on coin style
-        val bgRes = when (style) {
-            MainActivity.STYLE_NOTHING_LUCENT -> R.drawable.widget_background_nothing_lucent
-            MainActivity.STYLE_NOTHING -> R.drawable.widget_background_nothing
-            else -> R.drawable.widget_background
+        // Set widget background based on frame style
+        val bgRes = when (widgetFrame) {
+            MainActivity.FRAME_DIAL -> R.drawable.widget_background_nothing_dial
+            MainActivity.FRAME_LUCENT -> R.drawable.widget_background_nothing_lucent
+            else -> if (coinStyle == MainActivity.STYLE_DEFAULT) R.drawable.widget_background else R.drawable.widget_background_nothing
         }
         views.setInt(R.id.widgetRoot, "setBackgroundResource", bgRes)
 
+        // Set padding: 14dp for circular dial, 8dp for cards
+        val paddingDp = if (widgetFrame == MainActivity.FRAME_DIAL) 14 else 8
+        val paddingPx = (paddingDp * context.resources.displayMetrics.density).toInt()
+        views.setViewPadding(R.id.widgetRoot, paddingPx, paddingPx, paddingPx, paddingPx)
+
         // Set coin image based on last result and coin style
-        when (lastResult) {
-            "H" -> views.setImageViewResource(
-                R.id.coinImage,
-                if (useNothingCoin) R.drawable.nothing_coin_heads else R.drawable.coin_heads
-            )
-            "T" -> views.setImageViewResource(
-                R.id.coinImage,
-                if (useNothingCoin) R.drawable.nothing_coin_tails else R.drawable.coin_tails
-            )
-            else -> views.setImageViewResource(
-                R.id.coinImage,
-                if (useNothingCoin) R.drawable.nothing_coin_heads else R.drawable.coin_heads
-            )
+        val isHeads = lastResult != "T"
+        val coinRes = when (coinStyle) {
+            MainActivity.STYLE_NOTHING_GLASS -> if (isHeads) R.drawable.nothing_coin_heads_glass else R.drawable.nothing_coin_tails_glass
+            MainActivity.STYLE_NOTHING -> if (isHeads) R.drawable.nothing_coin_heads else R.drawable.nothing_coin_tails
+            else -> if (isHeads) R.drawable.coin_heads else R.drawable.coin_tails
         }
+        views.setImageViewResource(R.id.coinImage, coinRes)
 
         // Tapping the widget launches the animated flip overlay
         val flipIntent = Intent(context, CoinFlipActivity::class.java).apply {

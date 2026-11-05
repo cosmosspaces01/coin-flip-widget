@@ -11,8 +11,12 @@
     <string name="open_app">Open App</string>
     <string name="flip_coin">Flip Coin</string>
     <string name="reset">Reset</string>
-    <string name="coin_style_label">Coin Style</string>
+    <string name="coin_style_label">Coin Design</string>
     <string name="coin_style_default">Default</string>
-    <string name="coin_style_nothing">Nothing</string>
-    <string name="coin_style_nothing_lucent">Lucent</string>
+    <string name="coin_style_nothing">Solid</string>
+    <string name="coin_style_nothing_glass">Glass</string>
+    <string name="widget_frame_label">Widget Frame</string>
+    <string name="widget_frame_solid">Solid Card</string>
+    <string name="widget_frame_lucent">Lucent Card</string>
+    <string name="widget_frame_dial">Dial</string>
 </resources>

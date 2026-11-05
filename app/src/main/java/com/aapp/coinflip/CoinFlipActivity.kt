@@ -49,21 +49,31 @@ class CoinFlipActivity : Activity() {
     private fun isNothingCoin(): Boolean {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val style = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
-        return style == MainActivity.STYLE_NOTHING || style == MainActivity.STYLE_NOTHING_LUCENT
+        return style == MainActivity.STYLE_NOTHING || style == MainActivity.STYLE_NOTHING_GLASS
     }
 
     /**
      * Returns the appropriate heads drawable resource for the current coin style.
      */
     private fun headsDrawable(): Int {
-        return if (isNothingCoin()) R.drawable.nothing_coin_heads else R.drawable.coin_heads
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return when (prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)) {
+            MainActivity.STYLE_NOTHING_GLASS -> R.drawable.nothing_coin_heads_glass
+            MainActivity.STYLE_NOTHING -> R.drawable.nothing_coin_heads
+            else -> R.drawable.coin_heads
+        }
     }
 
     /**
      * Returns the appropriate tails drawable resource for the current coin style.
      */
     private fun tailsDrawable(): Int {
-        return if (isNothingCoin()) R.drawable.nothing_coin_tails else R.drawable.coin_tails
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return when (prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)) {
+            MainActivity.STYLE_NOTHING_GLASS -> R.drawable.nothing_coin_tails_glass
+            MainActivity.STYLE_NOTHING -> R.drawable.nothing_coin_tails
+            else -> R.drawable.coin_tails
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

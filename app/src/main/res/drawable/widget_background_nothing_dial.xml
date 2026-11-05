@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Widget background for Nothing Dial: circular Lucent container with 12 dial dots and 12h red accent indicator -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Circular base fill (Lucent dark slate 20% alpha) -->
+    <path
+        android:fillColor="#331B1B1D"
+        android:pathData="M100,100m-98,0a98,98,0,1,1,196,0a98,98,0,1,1,-196,0" />
+
+    <!-- Circular perimeter outline (15% white) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#26FFFFFF"
+        android:strokeWidth="1.5"
+        android:pathData="M100,100m-98,0a98,98,0,1,1,196,0a98,98,0,1,1,-196,0" />
+
+    <!-- Concentric hairline dashed track ring -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#1FFFFFFF"
+        android:strokeWidth="1"
+        android:pathData="M100,100m-92,0a92,92,0,1,1,184,0a92,92,0,1,1,-184,0" />
+
+    <!-- 12-o'clock Nothing red indicator pill -->
+    <path
+        android:fillColor="#E51919"
+        android:pathData="M97,4h6v6h-6z" />
+
+    <!-- 12 Dial Dots around perimeter -->
+    <!-- 6 o'clock -->
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M100,192m-2,0a2,2,0,1,1,4,0a2,2,0,1,1,-4,0" />
+    <!-- 9 o'clock -->
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M8,100m-2,0a2,2,0,1,1,4,0a2,2,0,1,1,-4,0" />
+    <!-- 3 o'clock -->
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M192,100m-2,0a2,2,0,1,1,4,0a2,2,0,1,1,-4,0" />
+    <!-- Diagonal markers: 35,35; 165,35; 35,165; 165,165 -->
+    <path
+        android:fillColor="#40FFFFFF"
+        android:pathData="M35,35m-1.5,0a1.5,1.5,0,1,1,3,0a1.5,1.5,0,1,1,-3,0" />
+    <path
+        android:fillColor="#40FFFFFF"
+        android:pathData="M165,35m-1.5,0a1.5,1.5,0,1,1,3,0a1.5,1.5,0,1,1,-3,0" />
+    <path
+        android:fillColor="#40FFFFFF"
+        android:pathData="M35,165m-1.5,0a1.5,1.5,0,1,1,3,0a1.5,1.5,0,1,1,-3,0" />
+    <path
+        android:fillColor="#40FFFFFF"
+        android:pathData="M165,165m-1.5,0a1.5,1.5,0,1,1,3,0a1.5,1.5,0,1,1,-3,0" />
+</vector>
+

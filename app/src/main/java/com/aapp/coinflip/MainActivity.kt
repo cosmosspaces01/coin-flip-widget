@@ -37,10 +37,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var flipButton: Button
     private lateinit var resetButton: Button
     private lateinit var instructionText: TextView
+
     private lateinit var coinStyleGroup: RadioGroup
     private lateinit var radioDefaultCoin: RadioButton
     private lateinit var radioNothingCoin: RadioButton
-    private lateinit var radioNothingLucentCoin: RadioButton
+    private lateinit var radioNothingGlassCoin: RadioButton
+
+    private lateinit var widgetFrameGroup: RadioGroup
+    private lateinit var radioFrameSolid: RadioButton
+    private lateinit var radioFrameLucent: RadioButton
+    private lateinit var radioFrameDial: RadioButton
 
     private var isFlipping = false
 
@@ -51,10 +57,16 @@ class MainActivity : AppCompatActivity() {
         private const val KEY_LAST_RESULT = "last_result"
         private const val KEY_STREAK = "streak"
         private const val KEY_STREAK_SIDE = "streak_side"
+
         const val KEY_COIN_STYLE = "coin_style"
         const val STYLE_DEFAULT = "default"
         const val STYLE_NOTHING = "nothing"
-        const val STYLE_NOTHING_LUCENT = "nothing_lucent"
+        const val STYLE_NOTHING_GLASS = "nothing_glass"
+
+        const val KEY_WIDGET_FRAME = "widget_frame"
+        const val FRAME_SOLID = "solid"
+        const val FRAME_LUCENT = "lucent"
+        const val FRAME_DIAL = "dial"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,28 +83,52 @@ class MainActivity : AppCompatActivity() {
         flipButton = findViewById(R.id.flipButtonMain)
         resetButton = findViewById(R.id.resetButtonMain)
         instructionText = findViewById(R.id.instructionText)
+
         coinStyleGroup = findViewById(R.id.coinStyleGroup)
         radioDefaultCoin = findViewById(R.id.radioDefaultCoin)
         radioNothingCoin = findViewById(R.id.radioNothingCoin)
-        radioNothingLucentCoin = findViewById(R.id.radioNothingLucentCoin)
+        radioNothingGlassCoin = findViewById(R.id.radioNothingGlassCoin)
 
-        // Load saved coin style preference
+        widgetFrameGroup = findViewById(R.id.widgetFrameGroup)
+        radioFrameSolid = findViewById(R.id.radioFrameSolid)
+        radioFrameLucent = findViewById(R.id.radioFrameLucent)
+        radioFrameDial = findViewById(R.id.radioFrameDial)
+
+        // Load saved preferences
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
         when (prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)) {
-            STYLE_NOTHING_LUCENT -> radioNothingLucentCoin.isChecked = true
+            STYLE_NOTHING_GLASS -> radioNothingGlassCoin.isChecked = true
             STYLE_NOTHING -> radioNothingCoin.isChecked = true
             else -> radioDefaultCoin.isChecked = true
         }
 
-        // Listen for coin style changes
+        when (prefs.getString(KEY_WIDGET_FRAME, FRAME_LUCENT)) {
+            FRAME_SOLID -> radioFrameSolid.isChecked = true
+            FRAME_DIAL -> radioFrameDial.isChecked = true
+            else -> radioFrameLucent.isChecked = true
+        }
+
+        // Listen for coin design changes
         coinStyleGroup.setOnCheckedChangeListener { _, checkedId ->
             val style = when (checkedId) {
-                R.id.radioNothingLucentCoin -> STYLE_NOTHING_LUCENT
+                R.id.radioNothingGlassCoin -> STYLE_NOTHING_GLASS
                 R.id.radioNothingCoin -> STYLE_NOTHING
                 else -> STYLE_DEFAULT
             }
             prefs.edit().putString(KEY_COIN_STYLE, style).apply()
             refreshUI()
+            notifyWidgets()
+        }
+
+        // Listen for widget frame changes
+        widgetFrameGroup.setOnCheckedChangeListener { _, checkedId ->
+            val frame = when (checkedId) {
+                R.id.radioFrameSolid -> FRAME_SOLID
+                R.id.radioFrameDial -> FRAME_DIAL
+                else -> FRAME_LUCENT
+            }
+            prefs.edit().putString(KEY_WIDGET_FRAME, frame).apply()
             notifyWidgets()
         }
 
@@ -107,26 +143,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Returns true if a Nothing-styled coin is currently selected.
+     * Returns true if a Nothing-styled coin (Solid or Glass) is currently selected.
      */
     private fun isNothingCoin(): Boolean {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val style = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)
-        return style == STYLE_NOTHING || style == STYLE_NOTHING_LUCENT
+        return style == STYLE_NOTHING || style == STYLE_NOTHING_GLASS
     }
 
     /**
      * Returns the appropriate heads drawable resource for the current coin style.
      */
     private fun headsDrawable(): Int {
-        return if (isNothingCoin()) R.drawable.nothing_coin_heads else R.drawable.coin_heads
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return when (prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)) {
+            STYLE_NOTHING_GLASS -> R.drawable.nothing_coin_heads_glass
+            STYLE_NOTHING -> R.drawable.nothing_coin_heads
+            else -> R.drawable.coin_heads
+        }
     }
 
     /**
      * Returns the appropriate tails drawable resource for the current coin style.
      */
     private fun tailsDrawable(): Int {
-        return if (isNothingCoin()) R.drawable.nothing_coin_tails else R.drawable.coin_tails
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return when (prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)) {
+            STYLE_NOTHING_GLASS -> R.drawable.nothing_coin_tails_glass
+            STYLE_NOTHING -> R.drawable.nothing_coin_tails
+            else -> R.drawable.coin_tails
+        }
     }
 
     /**
@@ -145,7 +191,6 @@ class MainActivity : AppCompatActivity() {
 
         // Animate: scale up + rotate Y (simulated via scaleX flip)
         val duration = 800L
-        val totalRotations = 6  // Number of "half-flips"
 
         // Phase 1: Fly up and spin
         val scaleUpX = ObjectAnimator.ofFloat(coinImage, "scaleX", 1f, 1.2f).apply {
@@ -159,7 +204,6 @@ class MainActivity : AppCompatActivity() {
             interpolator = AccelerateDecelerateInterpolator()
         }
 
-        // Simulated 3D rotation using scaleX oscillation
         val rotateAnim = ObjectAnimator.ofFloat(coinImage, "rotationY", 0f, 360f * 2).apply {
             this.duration = duration
             interpolator = AccelerateDecelerateInterpolator()
@@ -288,9 +332,10 @@ class MainActivity : AppCompatActivity() {
     private fun resetStats() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val coinStyle = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)
+        val widgetFrame = prefs.getString(KEY_WIDGET_FRAME, FRAME_LUCENT)
         prefs.edit().clear().apply()
-        // Preserve coin style after reset
-        prefs.edit().putString(KEY_COIN_STYLE, coinStyle).apply()
+        prefs.edit().putString(KEY_COIN_STYLE, coinStyle)
+            .putString(KEY_WIDGET_FRAME, widgetFrame).apply()
         refreshUI()
         notifyWidgets()
         triggerHaptic(20)
