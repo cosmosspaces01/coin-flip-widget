@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -18,16 +19,18 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 
 /**
  * Full-screen coin flip activity — launched from the app icon.
- * Features a 3D coin flip animation, stats tracking, and history.
+ * Features a 3D coin flip animation, stats tracking, and live Nothing-style widget customizer.
  */
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var coinBackground: ImageView
     private lateinit var coinImage: ImageView
     private lateinit var resultText: TextView
     private lateinit var headsCountText: TextView
@@ -48,6 +51,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var radioFrameLucent: RadioButton
     private lateinit var radioFrameDial: RadioButton
 
+    private lateinit var opacityValueText: TextView
+    private lateinit var opacitySeekBar: SeekBar
+
+    private lateinit var bgTintGroup: RadioGroup
+    private lateinit var radioTintSlate: RadioButton
+    private lateinit var radioTintOled: RadioButton
+    private lateinit var radioTintRed: RadioButton
+    private lateinit var radioTintFrost: RadioButton
+
     private var isFlipping = false
 
     companion object {
@@ -67,6 +79,16 @@ class MainActivity : AppCompatActivity() {
         const val FRAME_SOLID = "solid"
         const val FRAME_LUCENT = "lucent"
         const val FRAME_DIAL = "dial"
+
+        const val KEY_BG_OPACITY = "bg_opacity"
+        const val DEFAULT_BG_OPACITY = 20
+
+        const val KEY_BG_TINT = "bg_tint"
+        const val TINT_SLATE = "#1B1B1D"
+        const val TINT_OLED = "#000000"
+        const val TINT_RED = "#330D0E"
+        const val TINT_FROST = "#FFFFFF"
+        const val DEFAULT_BG_TINT = TINT_SLATE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Bind views
+        coinBackground = findViewById(R.id.coinBackgroundMain)
         coinImage = findViewById(R.id.coinImageMain)
         resultText = findViewById(R.id.resultTextMain)
         headsCountText = findViewById(R.id.headsCountMain)
@@ -94,6 +117,15 @@ class MainActivity : AppCompatActivity() {
         radioFrameLucent = findViewById(R.id.radioFrameLucent)
         radioFrameDial = findViewById(R.id.radioFrameDial)
 
+        opacityValueText = findViewById(R.id.opacityValueText)
+        opacitySeekBar = findViewById(R.id.opacitySeekBar)
+
+        bgTintGroup = findViewById(R.id.bgTintGroup)
+        radioTintSlate = findViewById(R.id.radioTintSlate)
+        radioTintOled = findViewById(R.id.radioTintOled)
+        radioTintRed = findViewById(R.id.radioTintRed)
+        radioTintFrost = findViewById(R.id.radioTintFrost)
+
         // Load saved preferences
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
@@ -109,6 +141,17 @@ class MainActivity : AppCompatActivity() {
             else -> radioFrameLucent.isChecked = true
         }
 
+        val savedOpacity = prefs.getInt(KEY_BG_OPACITY, DEFAULT_BG_OPACITY)
+        opacitySeekBar.progress = savedOpacity
+        opacityValueText.text = "$savedOpacity%"
+
+        when (prefs.getString(KEY_BG_TINT, DEFAULT_BG_TINT)) {
+            TINT_OLED -> radioTintOled.isChecked = true
+            TINT_RED -> radioTintRed.isChecked = true
+            TINT_FROST -> radioTintFrost.isChecked = true
+            else -> radioTintSlate.isChecked = true
+        }
+
         // Listen for coin design changes
         coinStyleGroup.setOnCheckedChangeListener { _, checkedId ->
             val style = when (checkedId) {
@@ -118,6 +161,7 @@ class MainActivity : AppCompatActivity() {
             }
             prefs.edit().putString(KEY_COIN_STYLE, style).apply()
             refreshUI()
+            updateBackgroundPreview()
             notifyWidgets()
         }
 
@@ -129,17 +173,82 @@ class MainActivity : AppCompatActivity() {
                 else -> FRAME_LUCENT
             }
             prefs.edit().putString(KEY_WIDGET_FRAME, frame).apply()
+            updateBackgroundPreview()
             notifyWidgets()
         }
 
-        // Load saved state
+        // Listen for opacity changes
+        opacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                opacityValueText.text = "$progress%"
+                if (fromUser) {
+                    prefs.edit().putInt(KEY_BG_OPACITY, progress).apply()
+                    updateBackgroundPreview()
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                notifyWidgets()
+            }
+        })
+
+        // Listen for tint changes
+        bgTintGroup.setOnCheckedChangeListener { _, checkedId ->
+            val tint = when (checkedId) {
+                R.id.radioTintOled -> TINT_OLED
+                R.id.radioTintRed -> TINT_RED
+                R.id.radioTintFrost -> TINT_FROST
+                else -> TINT_SLATE
+            }
+            prefs.edit().putString(KEY_BG_TINT, tint).apply()
+            updateBackgroundPreview()
+            notifyWidgets()
+        }
+
+        // Load saved state and render preview
         refreshUI()
+        updateBackgroundPreview()
 
         // Tap coin image to flip
         coinImage.setOnClickListener { performFlip() }
         flipButton.setOnClickListener { performFlip() }
 
         resetButton.setOnClickListener { resetStats() }
+    }
+
+    /**
+     * Updates the live preview background and coin padding to match widget settings.
+     */
+    private fun updateBackgroundPreview() {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val frame = prefs.getString(KEY_WIDGET_FRAME, FRAME_LUCENT) ?: FRAME_LUCENT
+        val tintStr = prefs.getString(KEY_BG_TINT, DEFAULT_BG_TINT) ?: DEFAULT_BG_TINT
+        val opacity = prefs.getInt(KEY_BG_OPACITY, DEFAULT_BG_OPACITY)
+        val coinStyle = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT) ?: STYLE_DEFAULT
+
+        val tintColor = try {
+            Color.parseColor(tintStr)
+        } catch (_: Exception) {
+            Color.parseColor(DEFAULT_BG_TINT)
+        }
+
+        val bitmap = CoinFlipWidgetProvider.generateWidgetBackground(
+            context = this,
+            widthPx = 400,
+            heightPx = 400,
+            frame = frame,
+            tintColor = tintColor,
+            opacityPercent = opacity,
+            coinStyle = coinStyle
+        )
+        coinBackground.setImageBitmap(bitmap)
+
+        // Dynamic padding on coin image inside the 200dp container
+        val paddingDp = if (frame == FRAME_DIAL) 28 else 16
+        val paddingPx = (paddingDp * resources.displayMetrics.density).toInt()
+        coinImage.setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
     }
 
     /**
@@ -316,13 +425,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        headsCountText.text = "👑 Heads: $headsCount"
-        tailsCountText.text = "🦅 Tails: $tailsCount"
+        headsCountText.text = "Heads: $headsCount"
+        tailsCountText.text = "Tails: $tailsCount"
         totalCountText.text = "Total: $total"
 
         if (streak > 1 && streakSide != null) {
             val sideLabel = if (streakSide == "H") "Heads" else "Tails"
-            streakText.text = "🔥 Streak: ${streak}× $sideLabel"
+            streakText.text = "Streak: ${streak}x $sideLabel"
             streakText.visibility = View.VISIBLE
         } else {
             streakText.visibility = View.GONE
@@ -333,10 +442,18 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val coinStyle = prefs.getString(KEY_COIN_STYLE, STYLE_DEFAULT)
         val widgetFrame = prefs.getString(KEY_WIDGET_FRAME, FRAME_LUCENT)
+        val bgOpacity = prefs.getInt(KEY_BG_OPACITY, DEFAULT_BG_OPACITY)
+        val bgTint = prefs.getString(KEY_BG_TINT, DEFAULT_BG_TINT)
+
         prefs.edit().clear().apply()
         prefs.edit().putString(KEY_COIN_STYLE, coinStyle)
-            .putString(KEY_WIDGET_FRAME, widgetFrame).apply()
+            .putString(KEY_WIDGET_FRAME, widgetFrame)
+            .putInt(KEY_BG_OPACITY, bgOpacity)
+            .putString(KEY_BG_TINT, bgTint)
+            .apply()
+
         refreshUI()
+        updateBackgroundPreview()
         notifyWidgets()
         triggerHaptic(20)
     }

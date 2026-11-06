@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Widget Layout: Coin Flip Home Screen Widget — coin only -->
+<!-- Widget Layout: Coin Flip Home Screen Widget — coin with dynamic background -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widgetRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="8dp"
-    android:background="@drawable/widget_background">
+    android:gravity="center">
+
+    <!-- Dynamic Background Image -->
+    <ImageView
+        android:id="@+id/widgetBackgroundView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/widget_background_nothing_lucent"
+        android:scaleType="fitXY" />
 
     <!-- Coin Image -->
     <ImageView
@@ -14,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:padding="8dp"
         android:src="@drawable/coin_heads"
         android:scaleType="fitCenter"
         android:contentDescription="@string/coin_description" />

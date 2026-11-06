@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="🪙 Coin Flip"
+            android:text="Coin Flip"
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@color/gold_400"
@@ -34,17 +34,31 @@
             android:textColor="@color/text_secondary"
             android:visibility="visible" />
 
-        <!-- Coin Image -->
-        <ImageView
-            android:id="@+id/coinImageMain"
+        <!-- Coin Container with Dynamic Background Preview -->
+        <FrameLayout
+            android:id="@+id/coinContainerMain"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/coin_heads"
-            android:scaleType="fitCenter"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/coin_description" />
+            android:layout_marginTop="32dp">
+
+            <ImageView
+                android:id="@+id/coinBackgroundMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/coinImageMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:src="@drawable/coin_heads"
+                android:scaleType="fitCenter"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/coin_description" />
+        </FrameLayout>
 
         <!-- Result -->
         <TextView
@@ -91,7 +105,7 @@
                     android:id="@+id/headsCountMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="👑 Heads: 0"
+                    android:text="Heads: 0"
                     android:textSize="16sp"
                     android:textColor="@color/gold_400"
                     android:textStyle="bold" />
@@ -112,7 +126,7 @@
                     android:id="@+id/tailsCountMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🦅 Tails: 0"
+                    android:text="Tails: 0"
                     android:textSize="16sp"
                     android:textColor="@color/blue_glow"
                     android:textStyle="bold" />
@@ -143,7 +157,7 @@
                 android:layout_height="56dp"
                 android:layout_weight="2"
                 android:layout_marginEnd="6dp"
-                android:text="🪙  Flip Coin"
+                android:text="Flip Coin"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#1a0f00"
@@ -156,7 +170,7 @@
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
-                android:text="🔄 Reset"
+                android:text="Reset"
                 android:textSize="14sp"
                 android:textColor="@color/text_secondary"
                 android:backgroundTint="@color/bg_card"
@@ -282,6 +296,122 @@
                 android:textSize="11sp"
                 android:textColor="@color/text_primary"
                 android:buttonTint="@color/rose_glow"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center" />
+
+        </RadioGroup>
+
+        <!-- 3. Background Opacity Slider -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/bg_opacity_label"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_secondary"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:id="@+id/opacityValueText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20%"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/gold_400"
+                android:fontFamily="sans-serif-medium" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/opacitySeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:min="10"
+            android:max="95"
+            android:progress="20"
+            android:thumbTint="@color/gold_400"
+            android:progressTint="@color/gold_400" />
+
+        <!-- 4. Background Tint Selector -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/bg_tint_label"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="sans-serif-medium" />
+
+        <RadioGroup
+            android:id="@+id/bgTintGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/radioTintSlate"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="3dp"
+                android:text="@string/tint_slate"
+                android:textSize="11sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="@color/dark_grey"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioTintOled"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:text="@string/tint_oled"
+                android:textSize="11sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="#555555"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/radioTintRed"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:text="@string/tint_red"
+                android:textSize="11sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="@color/rose_glow"
+                android:background="@drawable/stat_card_background"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/radioTintFrost"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:text="@string/tint_frost"
+                android:textSize="11sp"
+                android:textColor="@color/text_primary"
+                android:buttonTint="#E0E0E0"
                 android:background="@drawable/stat_card_background"
                 android:gravity="center" />
 

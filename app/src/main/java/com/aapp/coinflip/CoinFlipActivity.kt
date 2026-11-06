@@ -269,7 +269,7 @@ class CoinFlipActivity : Activity() {
             // Nothing style: minimal, clean hint text — no emojis
             hintLabel.text = if (isHeads) "· heads ·" else "· tails ·"
         } else {
-            hintLabel.text = if (isHeads) "The lion prevails! 🦁" else "The moon rises! 🌙"
+            hintLabel.text = if (isHeads) "The lion prevails!" else "The moon rises!"
         }
         ObjectAnimator.ofFloat(hintLabel, "alpha", 0f, 0.85f).apply {
             duration = 400; startDelay = 250; start()

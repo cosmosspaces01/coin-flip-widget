@@ -6,6 +6,11 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -16,9 +21,9 @@ import kotlin.random.Random
 /**
  * AppWidgetProvider for the Coin Flip home screen widget.
  *
- * The widget displays a coin image (heads/tails) and result text.
- * Tapping the widget triggers a coin flip — the result is randomized
- * and the widget updates in-place on the home screen.
+ * The widget displays a coin image (heads/tails) on a dynamically rendered
+ * Nothing-styled background with customizable opacity and tint.
+ * Tapping the widget launches the animated flip overlay.
  */
 class CoinFlipWidgetProvider : AppWidgetProvider() {
 
@@ -31,6 +36,123 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
         private const val KEY_LAST_RESULT = "last_result"
         private const val KEY_STREAK = "streak"
         private const val KEY_STREAK_SIDE = "streak_side"
+
+        /**
+         * Dynamically draws the widget background bitmap matching Nothing OS design specifications:
+         * - FRAME_DIAL: Circular base with hairline border, concentric track ring, 12h red indicator, perimeter dots.
+         * - FRAME_LUCENT: Squircle (rounded rect) with hairline white highlight border.
+         * - FRAME_SOLID: Squircle with solid/dark slate or classic gold border.
+         */
+        fun generateWidgetBackground(
+            context: Context,
+            widthPx: Int = 400,
+            heightPx: Int = 400,
+            frame: String,
+            tintColor: Int,
+            opacityPercent: Int,
+            coinStyle: String
+        ): Bitmap {
+            val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+
+            val alpha = (opacityPercent.coerceIn(0, 100) * 255 / 100)
+            val fillColor = Color.argb(
+                alpha,
+                Color.red(tintColor),
+                Color.green(tintColor),
+                Color.blue(tintColor)
+            )
+
+            val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                style = Paint.Style.FILL
+                color = fillColor
+            }
+
+            if (frame == MainActivity.FRAME_DIAL) {
+                val cx = widthPx / 2f
+                val cy = heightPx / 2f
+                val radius = (widthPx.coerceAtMost(heightPx) / 2f) - 6f
+
+                // Base circular tint fill
+                canvas.drawCircle(cx, cy, radius, fillPaint)
+
+                // Perimeter outline stroke (15% white)
+                val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    style = Paint.Style.STROKE
+                    strokeWidth = 3f
+                    color = Color.argb(38, 255, 255, 255) // #26FFFFFF
+                }
+                canvas.drawCircle(cx, cy, radius, strokePaint)
+
+                // Concentric hairline track ring (12% white)
+                val ringPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    style = Paint.Style.STROKE
+                    strokeWidth = 2f
+                    color = Color.argb(31, 255, 255, 255) // #1FFFFFFF
+                }
+                canvas.drawCircle(cx, cy, radius - 12f, ringPaint)
+
+                // 12-o'clock Nothing red indicator pill
+                val redPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    style = Paint.Style.FILL
+                    color = Color.parseColor("#E51919")
+                }
+                val pillWidth = 12f
+                val pillHeight = 12f
+                val pillTop = cy - radius + 4f
+                val pillRect = RectF(
+                    cx - (pillWidth / 2f),
+                    pillTop,
+                    cx + (pillWidth / 2f),
+                    pillTop + pillHeight
+                )
+                canvas.drawRoundRect(pillRect, 3f, 3f, redPaint)
+
+                // Cardinal dial dots (40% white)
+                val dotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    style = Paint.Style.FILL
+                    color = Color.argb(102, 255, 255, 255) // #66FFFFFF
+                }
+                val dotRadius = 4f
+                canvas.drawCircle(cx, cy + radius - 10f, dotRadius, dotPaint)
+                canvas.drawCircle(cx - radius + 10f, cy, dotRadius, dotPaint)
+                canvas.drawCircle(cx + radius - 10f, cy, dotRadius, dotPaint)
+
+                // Diagonal marker dots (25% white)
+                val subDotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    style = Paint.Style.FILL
+                    color = Color.argb(64, 255, 255, 255) // #40FFFFFF
+                }
+                val subRadius = 3f
+                val markerDistance = radius - 10f
+                for (angleDeg in listOf(45.0, 135.0, 225.0, 315.0)) {
+                    val rad = Math.toRadians(angleDeg)
+                    val dx = (cx + markerDistance * Math.cos(rad)).toFloat()
+                    val dy = (cy + markerDistance * Math.sin(rad)).toFloat()
+                    canvas.drawCircle(dx, dy, subRadius, subDotPaint)
+                }
+            } else {
+                // Squircle / Rounded Rect for Lucent or Solid Card
+                val inset = 3f
+                val rect = RectF(inset, inset, widthPx - inset, heightPx - inset)
+                val cornerRadius = 40f
+
+                canvas.drawRoundRect(rect, cornerRadius, cornerRadius, fillPaint)
+
+                val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    style = Paint.Style.STROKE
+                    strokeWidth = 3f
+                    color = if (frame == MainActivity.FRAME_SOLID && coinStyle == MainActivity.STYLE_DEFAULT) {
+                        Color.parseColor("#40FFD700") // Classic gold border
+                    } else {
+                        Color.argb(38, 255, 255, 255) // 15% white highlight border
+                    }
+                }
+                canvas.drawRoundRect(rect, cornerRadius, cornerRadius, strokePaint)
+            }
+
+            return bitmap
+        }
     }
 
     override fun onUpdate(
@@ -111,23 +233,35 @@ class CoinFlipWidgetProvider : AppWidgetProvider() {
     ) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val lastResult = prefs.getString(KEY_LAST_RESULT, null)
-        val coinStyle = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT)
-        val widgetFrame = prefs.getString(MainActivity.KEY_WIDGET_FRAME, MainActivity.FRAME_LUCENT)
+        val coinStyle = prefs.getString(MainActivity.KEY_COIN_STYLE, MainActivity.STYLE_DEFAULT) ?: MainActivity.STYLE_DEFAULT
+        val widgetFrame = prefs.getString(MainActivity.KEY_WIDGET_FRAME, MainActivity.FRAME_LUCENT) ?: MainActivity.FRAME_LUCENT
+        val bgOpacity = prefs.getInt(MainActivity.KEY_BG_OPACITY, MainActivity.DEFAULT_BG_OPACITY)
+        val bgTintStr = prefs.getString(MainActivity.KEY_BG_TINT, MainActivity.DEFAULT_BG_TINT) ?: MainActivity.DEFAULT_BG_TINT
+
+        val tintColor = try {
+            Color.parseColor(bgTintStr)
+        } catch (_: Exception) {
+            Color.parseColor(MainActivity.DEFAULT_BG_TINT)
+        }
 
         val views = RemoteViews(context.packageName, R.layout.widget_coin_flip)
 
-        // Set widget background based on frame style
-        val bgRes = when (widgetFrame) {
-            MainActivity.FRAME_DIAL -> R.drawable.widget_background_nothing_dial
-            MainActivity.FRAME_LUCENT -> R.drawable.widget_background_nothing_lucent
-            else -> if (coinStyle == MainActivity.STYLE_DEFAULT) R.drawable.widget_background else R.drawable.widget_background_nothing
-        }
-        views.setInt(R.id.widgetRoot, "setBackgroundResource", bgRes)
+        // Generate and set dynamic background bitmap
+        val bgBitmap = generateWidgetBackground(
+            context = context,
+            widthPx = 400,
+            heightPx = 400,
+            frame = widgetFrame,
+            tintColor = tintColor,
+            opacityPercent = bgOpacity,
+            coinStyle = coinStyle
+        )
+        views.setImageViewBitmap(R.id.widgetBackgroundView, bgBitmap)
 
         // Set padding: 14dp for circular dial, 8dp for cards
         val paddingDp = if (widgetFrame == MainActivity.FRAME_DIAL) 14 else 8
         val paddingPx = (paddingDp * context.resources.displayMetrics.density).toInt()
-        views.setViewPadding(R.id.widgetRoot, paddingPx, paddingPx, paddingPx, paddingPx)
+        views.setViewPadding(R.id.coinImage, paddingPx, paddingPx, paddingPx, paddingPx)
 
         // Set coin image based on last result and coin style
         val isHeads = lastResult != "T"

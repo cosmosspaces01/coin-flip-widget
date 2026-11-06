@@ -19,4 +19,10 @@
     <string name="widget_frame_solid">Solid Card</string>
     <string name="widget_frame_lucent">Lucent Card</string>
     <string name="widget_frame_dial">Dial</string>
+    <string name="bg_opacity_label">Background Opacity</string>
+    <string name="bg_tint_label">Background Tint</string>
+    <string name="tint_slate">Slate</string>
+    <string name="tint_oled">OLED</string>
+    <string name="tint_red">Red</string>
+    <string name="tint_frost">Frost</string>
 </resources>
